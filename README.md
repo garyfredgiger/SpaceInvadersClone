@@ -33,6 +33,6 @@ A few notes about this game:
 </ul>
 </ul>
 
-NOTE: I included the eclipse project files (.project and .classpath) in this project so you can simply import this project without having to create a new project from your cloned copy of the code. Some suggest it is not a good idea to include project specific files, but i thought I would be a rebel and do it anyway.
+NOTE: I included the eclipse project files (.project and .classpath) in this project so you can simply import this project without having to create a new project from your cloned copy of the code. Some suggest it is not a good idea to include project specific files, but I thought I would be a rebel and do it anyway.
 
 This game was developed using Eclipse Kepler Release (Build id: 20130614-0229) with Java 1.6. 

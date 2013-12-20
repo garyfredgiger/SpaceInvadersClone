@@ -10,6 +10,8 @@ When you clone this project, make sure you also clone the *[GameFramework](https
 <li>Click on the Projects tab and add the GameFramework project, then click the OK button.</li>
 </ol>
 
+Note: If you are new to Eclipse and need instructions on how to install and set it up, refer to this link *[here](http://wiki.eclipse.org/Eclipse/Installation)*.
+
 A few notes about this game:
 
 <ul>

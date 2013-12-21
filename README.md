@@ -10,6 +10,8 @@ When you clone this project, make sure you also clone the *[GameFramework](https
 <li>Click on the Projects tab and add the GameFramework project, then click the OK button.</li>
 </ol>
 
+Note: If you are new to Eclipse and need instructions on how to install and set it up, refer to this link *[here](http://wiki.eclipse.org/Eclipse/Installation)*.
+
 A few notes about this game:
 
 <ul>
@@ -24,12 +26,12 @@ A few notes about this game:
 </ul>
 <li>Since this game is still in development, there are a few debugging features that can be enabled.</li>
 <ul>
-<li>During game play press SHIFT+~ to display debugging information about the current game.</li>
+<li>During game play press SHIFT + ~ (tilda) to display debugging information about the current game.</li>
 <li>The different powerups can be added to the player's entity by using the following keys:</li>
 <ul>q - Normal, Fires one shot at a time</ul>
 <ul>w - Double Shot, Fires two shots at a time</ul>
 <ul>e - Triple Shot, Fires three shots at a time</ul>
-<ul>r - Spead, Fires five shots at a time</ul>
+<ul>r - Spread, Fires five shots at a time</ul>
 </ul>
 </ul>
 

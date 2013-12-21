@@ -20,38 +20,27 @@ public class SpaceInvaderConstants
   };
 
   /*
-   * Color constants used in the game for the space invaders
+   * Constants for enemy entities (both UFOs and Invaders)
    */
   public static final Color    VIOLET                                                  = new Color(138, 43, 226);
   public static final Color    INDIGO                                                  = new Color(75, 0, 130);
   public static final Color[]  INVADER_COLORS                                          = new Color[] { Color.RED, VIOLET, Color.BLUE, Color.GREEN, Color.ORANGE, Color.YELLOW };
   public static final Color[]  STAR_COLORS                                             = new Color[] { Color.WHITE, Color.LIGHT_GRAY, Color.DARK_GRAY, Color.RED.darker(), Color.ORANGE.darker(), Color.YELLOW.darker(), Color.GREEN.darker(), Color.BLUE.darker(), INDIGO.darker(), VIOLET.darker() };
-
-  /*
-   * Entity velocities for game
-   */
-
-  // Values used when delta is used
-
-  // Velocities for enemy entities
   public static final int      INITIAL_BULLET_SPEED                                    = 120;                                                                                                                                                                                                          // Invader shot speed
   public static final int      INVADER_INITIAL_VELOCITY                                = 20;
+  public static final int      NUM_INVADER_ROWS                                        = SpaceInvaderConstants.INVADER_COLORS.length;
+  public static final int      NUM_INVADER_COLS                                        = 12;
+  public static final int      NUM_INVADERS                                            = NUM_INVADER_ROWS * NUM_INVADER_COLS;
   public static final double[] UFO_SPEEDS                                              = new double[] { 50, 75, 100, 125, 150, 175, 200 };
-
-  // Player velocities
+  public static final int                       HIGHEST_INVADER_SCORE      = 60;
+  public static final int                       INVADER_SCORE_INCREMENT    = 10;
+  
+  /*
+   *  Constants for the player's entity 
+   */
   public static final int      PLAYER_VELOCITY                                         = 100;
   public static final int      BULLET_SPEED                                            = -200;
-
-  // Values used without the delta
-
-  //  // Velocities for enemy entities
-  //  public static final int      INITIAL_BULLET_SPEED                                    = 2;                                                                                                                                                                                                          // Invader shot speed
-  //  public static final int      INVADER_INITIAL_VELOCITY                                = 1;
-  //  public static final double[] UFO_SPEEDS                                              = new double[] { 1, 2, 3, 4, 5, 6, 7 };
-  //  
-  //  // Player velocities
-  //  public static final int      PLAYER_VELOCITY                                         = 1;
-  //  public static final int      BULLET_SPEED                                            = -2;
+  public static final Color    PLAYER_COLOR                                            = Color.LIGHT_GRAY;
 
   /*
    * Numeric constants used in the game
@@ -115,7 +104,7 @@ public class SpaceInvaderConstants
   public static final String   MSG_INTRO_SCREEN2_INST_MOVE_RIGHT                       = " - Move Right";                                                                                                                                                                                              //"Use Left/Right Arrow Keys to Move";
   public static final String   MSG_INTRO_SCREEN2_INST_FIRE                             = "SPACE - Fire";                                                                                                                                                                                               //"Use Space Bar to Shoot at Invaders";
   public static final String   MSG_INTRO_SCREEN2_INST_PAUSE                            = "P - Pause Game";
-  public static final String   MSG_INTRO_SCREEN2_PRESS_ENTER                             = "Press 'ENTER/RETURN' to return to main menu";
+  public static final String   MSG_INTRO_SCREEN2_PRESS_ENTER                           = "Press 'ENTER/RETURN' to return to main menu";
 
   // Messages for the game screen
 }

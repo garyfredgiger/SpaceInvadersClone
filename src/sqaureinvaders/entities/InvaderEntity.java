@@ -118,14 +118,14 @@ public class InvaderEntity extends EnemyEntity
   {
     // Reverse the horizontal movement and move invader down to the next row
     velocity.x = -velocity.x;
-    position.y += 10;
+    position.y += this.getHeight();
 
     // Get the direction from the x component of the velocity
     // TODO: Determine if there is a better way to change the direction
     manager.setDirection((velocity.x == Math.abs(velocity.x)) ? 1 : -1);
 
     // if we've reached the bottom of the screen then the aliens have landed and the game is over.
-    if (position.y > bottomOfScreen)
+    if ((position.y + this.getHeight()) >= bottomOfScreen)
     {
       manager.signalInvadesHaveLanded();
     }

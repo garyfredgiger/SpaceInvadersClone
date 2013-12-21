@@ -52,25 +52,7 @@ public class SqaureInvaders extends GameEngine
   /*
    * Class member variables
    */
-
-  // Player constants
-
-  // Change back when using a delta
-  //private static final int                       PLAYER_VELOCITY            = 100;
-
-  // Change back when not using any delta
-  //private static final int                       PLAYER_VELOCITY            = 100;
-
-  private static final Color                     PLAYER_COLOR               = Color.LIGHT_GRAY;
   private static final Color                     EARTH_COLOR                = Color.ORANGE;
-
-  // Space Invader constants
-  private static final int                       NUM_INVADER_ROWS           = SpaceInvaderConstants.INVADER_COLORS.length;
-  private static final int                       NUM_INVADER_COLS           = 12;
-  private static final int                       NUM_INVADERS               = NUM_INVADER_ROWS * NUM_INVADER_COLS;
-  //  private static final int                       INVADER_VELOCITY           = 20;
-  private static final int                       HIGHEST_INVADER_SCORE      = 60;
-  private static final int                       INVADER_SCORE_INCREMENT    = 10;
 
   private static final long                      TIME_BETWEEN_INTRO_DEMO    = 30000;
   private static final int                       NUMBER_OF_BACKGROUND_STARS = 150;
@@ -111,12 +93,12 @@ public class SqaureInvaders extends GameEngine
   private boolean                                changeDifficultyLevels;
 
   // Variables to manage game state transitions and timing between the transitions
-  long                                           stateGameStartTime;
-  long                                           stateNextLevelTime;
-  long                                           stateGameOverTime;
-  long                                           statePlayerDeadTime;
-  long                                           stateStartIntroDemoTime;
-  long                                           stateStopIntroDemoTime;
+  private long                                   stateGameStartTime;
+  private long                                   stateNextLevelTime;
+  private long                                   stateGameOverTime;
+  private long                                   statePlayerDeadTime;
+  private long                                   stateStartIntroDemoTime;
+  private long                                   stateStopIntroDemoTime;
 
   private boolean                                introScreenMainDisplayed;
   private boolean                                introScreenInstDisplayed;
@@ -124,14 +106,15 @@ public class SqaureInvaders extends GameEngine
   private boolean                                gotoIntroInstScreen;
   private boolean                                gamePaused;
   private boolean                                requestToQuitPlayingGame;
-  private boolean quitPlayingGame;
-  private boolean doNotQuitPlayingGame;
+  private boolean                                quitPlayingGame;
+  private boolean                                doNotQuitPlayingGame;
 
   // Variables used for background effects
   private ArrayList<Entity>                      starryBackground           = new ArrayList<Entity>();                    // List to hold the different stars
 
   // Level dependent variables
   private int                                    maxNumberInvaderShots;
+  private int invaderStartingRowPosition;
 
   public SqaureInvaders(IRender renderer)
   {
@@ -161,21 +144,21 @@ public class SqaureInvaders extends GameEngine
     //       showing up before the game begins, the player ship needs to have both flags set to false via the kill
     //       method. Remember that it needs to have these flags set again When the game begins using the reset method.  
     PlayerEntity player = new PlayerEntity(GameEngineConstants.DEFAULT_CANVAS_WIDTH / 2, 560, 0, GameEngineConstants.DEFAULT_CANVAS_WIDTH);
-    player.setColor(PLAYER_COLOR);
+    player.setColor(SpaceInvaderConstants.PLAYER_COLOR);
     player.setVisible(false);     // When the game loads, we do not want the player entity to be seen until the player begins playing the game.
     setNewPlayerEntity(player);
 
     // TODO: This may need to be changed
     // Setup the entity representing the players lives
     playerLives = new PlayerEntity();
-    playerLives.setColor(PLAYER_COLOR);
+    playerLives.setColor(SpaceInvaderConstants.PLAYER_COLOR);
     playerLives.setPositionY(GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083 - playerLives.getHeight());
 
     // Initialize the invaders for the score list that is displayed on the instructions introduction screen
     double rowsSpacing = 0.36;
     introInvaderScoreList = new ArrayList<InvaderEntity>();
-    int pointValue = HIGHEST_INVADER_SCORE;
-    for (int row = 0; row < NUM_INVADER_ROWS; row++)
+    int pointValue = SpaceInvaderConstants.HIGHEST_INVADER_SCORE;
+    for (int row = 0; row < SpaceInvaderConstants.NUM_INVADER_ROWS; row++)
     {
       InvaderEntity invader = new InvaderEntity();
       invader.setPosition(GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.42, GameEngineConstants.DEFAULT_CANVAS_HEIGHT * rowsSpacing);
@@ -185,7 +168,7 @@ public class SqaureInvaders extends GameEngine
       introInvaderScoreList.add(invader);
 
       rowsSpacing += 0.05;
-      pointValue -= INVADER_SCORE_INCREMENT;
+      pointValue -= SpaceInvaderConstants.INVADER_SCORE_INCREMENT;
     }
 
     ufoForIntroScreen = new UFOEntity();
@@ -376,7 +359,7 @@ public class SqaureInvaders extends GameEngine
         {
           Iterator<Entity> enemyIterator = getEnemies().iterator();
 
-          double newInvaderVelocity = invaderEntityManager.getDirection() * ((NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SpaceInvaderConstants.INVADER_INITIAL_VELOCITY);
+          double newInvaderVelocity = invaderEntityManager.getDirection() * ((SpaceInvaderConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SpaceInvaderConstants.INVADER_INITIAL_VELOCITY);
 
           while (enemyIterator.hasNext())
           {
@@ -465,7 +448,7 @@ public class SqaureInvaders extends GameEngine
 
             playerMovement.reset();
 
-            resumeEnemyMovement((double) invaderEntityManager.getDirection() * ((NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SpaceInvaderConstants.INVADER_INITIAL_VELOCITY), 0.0);
+            resumeEnemyMovement((double) invaderEntityManager.getDirection() * ((SpaceInvaderConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SpaceInvaderConstants.INVADER_INITIAL_VELOCITY), 0.0);
           }
           else
           {
@@ -762,7 +745,7 @@ public class SqaureInvaders extends GameEngine
         // Use this state to keep displaying the screen even when the game is over before returning to the introduction screen
 
       case EXIT_PLAYING_GAME:
-        
+
       case PLAYING:
 
         drawCustomEntityList(g);
@@ -1074,14 +1057,14 @@ public class SqaureInvaders extends GameEngine
         break;
 
       case EXIT_PLAYING_GAME:
-        
+
         if (quitPlayingGame)
         {
           quitPlayingGame = false;
           state = GameEngineConstants.GameState.GAMEOVER;
           stateGameOverTime = System.currentTimeMillis();
         }
-        
+
         if (doNotQuitPlayingGame)
         {
           state = GameEngineConstants.GameState.PLAYING;
@@ -1089,9 +1072,9 @@ public class SqaureInvaders extends GameEngine
           requestToQuitPlayingGame = false;
           this.unpauseGame();
         }
-        
+
         break;
-        
+
       case PAUSED:
 
         if (!gamePaused)
@@ -1220,19 +1203,19 @@ public class SqaureInvaders extends GameEngine
         break;
 
       case EXIT_PLAYING_GAME:
-        
+
         if (keyCode == KeyEvent.VK_Y)
         {
           quitPlayingGame = true;
         }
-        
+
         if (keyCode == KeyEvent.VK_N)
         {
           doNotQuitPlayingGame = true;
         }
-        
+
         break;
-        
+
       default:
     }
   }
@@ -1327,18 +1310,18 @@ public class SqaureInvaders extends GameEngine
 
   private void initializeInvaders()
   {
-    int pointValue = HIGHEST_INVADER_SCORE;
+    int pointValue = SpaceInvaderConstants.HIGHEST_INVADER_SCORE;
 
     // Create a block of aliens (5 rows, by 12 aliens, spaced evenly)
     clearEnemies();
     invaderCount = 0;
 
-    for (int row = 0; row < NUM_INVADER_ROWS; row++)
+    for (int row = 0; row < SpaceInvaderConstants.NUM_INVADER_ROWS; row++)
     {
-      for (int x = 0; x < NUM_INVADER_COLS; x++)
+      for (int col = 0; col < SpaceInvaderConstants.NUM_INVADER_COLS; col++)
       {
-        InvaderEntity invader = new InvaderEntity(invaderEntityManager, 20, 780, 560);
-        invader.setPosition(100 + (x * 50), (100) + row * 30);
+        InvaderEntity invader = new InvaderEntity(invaderEntityManager, 20, 780, 560 + getPlayer().getHeight());
+        invader.setPosition(32 + (col * 48), (invaderStartingRowPosition) + row * 32);
         invader.setVelocity(SpaceInvaderConstants.INVADER_INITIAL_VELOCITY, 0);
         invader.setColor(SpaceInvaderConstants.INVADER_COLORS[row]);
         invader.setPointValue(pointValue);
@@ -1346,24 +1329,24 @@ public class SqaureInvaders extends GameEngine
         invaderCount++;
         //System.out.println("Invader count updated: " + invaderCount);
       }
-      pointValue -= INVADER_SCORE_INCREMENT;
+      pointValue -= SpaceInvaderConstants.INVADER_SCORE_INCREMENT;
     }
   }
 
   private void initializeMultiHitInvaders()
   {
-    int pointValue = HIGHEST_INVADER_SCORE;
+    int pointValue = SpaceInvaderConstants.HIGHEST_INVADER_SCORE;
 
     // Create a block of aliens (5 rows, by 12 aliens, spaced evenly)
     clearEnemies();
     invaderCount = 0;
 
-    for (int row = 0; row < NUM_INVADER_ROWS; row++)
+    for (int row = 0; row < SpaceInvaderConstants.NUM_INVADER_ROWS; row++)
     {
-      for (int x = 0; x < NUM_INVADER_COLS; x++)
+      for (int col = 0; col < SpaceInvaderConstants.NUM_INVADER_COLS; col++)
       {
         InvaderEntityMultipleHits invader = new InvaderEntityMultipleHits(invaderEntityManager, 20, 780, 560);
-        invader.setPosition(100 + (x * 50), (100) + row * 30);
+        invader.setPosition(32 + (col * 48), (invaderStartingRowPosition) + row * 32);
         invader.setVelocity(SpaceInvaderConstants.INVADER_INITIAL_VELOCITY, 0);
         invader.setColor(SpaceInvaderConstants.INVADER_COLORS[row]);
         invader.setNumHits(row);
@@ -1372,15 +1355,14 @@ public class SqaureInvaders extends GameEngine
         invaderCount++;
         //System.out.println("Invader count updated: " + invaderCount);
       }
-      pointValue -= INVADER_SCORE_INCREMENT;
+      pointValue -= SpaceInvaderConstants.INVADER_SCORE_INCREMENT;
     }
   }
 
   public void drawEarth(Graphics g)
   {
     g.setColor(EARTH_COLOR);
-    g.fillRect(0, 560 + getPlayer().getHeight(), GameEngineConstants.DEFAULT_CANVAS_WIDTH, GameEngineConstants.DEFAULT_CANVAS_HEIGHT);
-    //g.fillRect(0, 560 + getPlayer().getHeight(), screen.getWidth(), screen.getHeight());
+    g.fillRect(0, (560 + getPlayer().getHeight()), GameEngineConstants.DEFAULT_CANVAS_WIDTH, GameEngineConstants.DEFAULT_CANVAS_HEIGHT);
   }
 
   // NOTE: This method is not currently used.
@@ -1408,6 +1390,7 @@ public class SqaureInvaders extends GameEngine
     currentShotType = ShotTypes.NORMAL;
 
     currentLevel = STARTING_LEVEL;
+    invaderStartingRowPosition = 80;
 
     // Reset the background stars
     starryBackground.clear();
@@ -1432,6 +1415,15 @@ public class SqaureInvaders extends GameEngine
   {
     shotFired = false;
     currentLevel++;
+    
+    // TODO: Depending on the difficult level, maybe start the invaders closer every three levels for beginner, closer every 2 levels for intermediate and closer each level for advanced.
+    
+    // Start the invaders a little closer with each successive level. But stop making them closer when the maximum is reached.
+    invaderStartingRowPosition += 16;   
+    if (invaderStartingRowPosition >=336)
+    {
+      invaderStartingRowPosition = 336;
+    }
 
     // Clear the player shots when moving to the nexy level. This will clear the screen before the intro screen for the next level is displayed
     // This is more or less for eye candy to make a clean transition to the next level.
@@ -1456,6 +1448,7 @@ public class SqaureInvaders extends GameEngine
     invaderEntityManager.setCurrentLevel(currentLevel);
     maxNumberInvaderShots = invaderEntityManager.computeMaxShots(currentLevel, getEnemies().size());
     invaderEntityManager.computeInvaderShotProbabilityForCurrentLevel();
+    invaderEntityManager.setDirection(1);  // Always start the invaders moving right, denoted by the +1 value.
   }
 
   // NOTE: This method could be moved to the GameUtility class

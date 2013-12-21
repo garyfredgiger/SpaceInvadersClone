@@ -7,7 +7,7 @@ import game.framework.utilities.GameEngineConstants;
 
 public class EnemyEntity extends Entity
 {
-  private int                              pointValue;
+  private int                    pointValue;
   private SIConstants.EnemyTypes enemyType;
 
   //private boolean ceaseFire;

@@ -1,14 +1,14 @@
 package sqaureinvaders.entities;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
-import sqaureinvaders.constants.SpaceInvaderConstants.EnemyTypes;
+import sqaureinvaders.constants.SIConstants;
+import sqaureinvaders.constants.SIConstants.EnemyTypes;
 import game.framework.entities.*;
 import game.framework.utilities.GameEngineConstants;
 
 public class EnemyEntity extends Entity
 {
   private int                              pointValue;
-  private SpaceInvaderConstants.EnemyTypes enemyType;
+  private SIConstants.EnemyTypes enemyType;
 
   //private boolean ceaseFire;
 
@@ -30,12 +30,12 @@ public class EnemyEntity extends Entity
     return pointValue;
   }
 
-  public void setEnemyType(SpaceInvaderConstants.EnemyTypes type)
+  public void setEnemyType(SIConstants.EnemyTypes type)
   {
     enemyType = type;
   }
 
-  public SpaceInvaderConstants.EnemyTypes getEnemyType()
+  public SIConstants.EnemyTypes getEnemyType()
   {
     return enemyType;
   }

@@ -2,7 +2,7 @@ package sqaureinvaders.entities;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
+import sqaureinvaders.constants.SIConstants;
 import sqaureinvaders.managers.InvaderEntityManager;
 
 public class InvaderEntityMultipleHits extends InvaderEntity
@@ -38,26 +38,26 @@ public class InvaderEntityMultipleHits extends InvaderEntity
     {
     // Change color from RED to VIOLET
       case 1:
-        this.setColor(SpaceInvaderConstants.INVADER_COLORS[1]);
+        this.setColor(SIConstants.INVADER_COLORS[1]);
         break;
 
       // Change color from VIOLET to BLUE
       case 2:
-        this.setColor(SpaceInvaderConstants.INVADER_COLORS[2]);
+        this.setColor(SIConstants.INVADER_COLORS[2]);
         break;
 
       // Change color from BLUE to GREEN  
       case 3:
-        this.setColor(SpaceInvaderConstants.INVADER_COLORS[3]);
+        this.setColor(SIConstants.INVADER_COLORS[3]);
         break;
 
       // Change color from GREEN to ORANGE
       case 4:
-        this.setColor(SpaceInvaderConstants.INVADER_COLORS[4]);
+        this.setColor(SIConstants.INVADER_COLORS[4]);
         break;
       // Change color from ORANGE to YELLOW  
       case 5:
-        this.setColor(SpaceInvaderConstants.INVADER_COLORS[5]);
+        this.setColor(SIConstants.INVADER_COLORS[5]);
         break;
 
       // Change color from YELLOW to WHITE

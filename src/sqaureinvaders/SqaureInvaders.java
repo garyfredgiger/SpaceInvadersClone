@@ -10,8 +10,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
-import sqaureinvaders.constants.SpaceInvaderFonts;
+import sqaureinvaders.constants.SIConstants;
+import sqaureinvaders.constants.SIDebugConstants;
+import sqaureinvaders.constants.SIFonts;
 import sqaureinvaders.entities.EnemyEntity;
 import sqaureinvaders.entities.EnemyShotEntity;
 import sqaureinvaders.entities.InvaderEntity;
@@ -73,7 +74,7 @@ public class SqaureInvaders extends GameEngine
 
   // General game variables
   private int                                    currentLevel;
-  private SpaceInvaderConstants.DifficultyLevels currentDifficultyLevel;                                                  // Used to set the difficult level in the InvaderEntityManager object and to display the difficulty level to the screen
+  private SIConstants.DifficultyLevels currentDifficultyLevel;                                                  // Used to set the difficult level in the InvaderEntityManager object and to display the difficulty level to the screen
 
   // Variables used for the intro screens
   private ArrayList<InvaderEntity>               introInvaderScoreList;
@@ -144,31 +145,31 @@ public class SqaureInvaders extends GameEngine
     //       showing up before the game begins, the player ship needs to have both flags set to false via the kill
     //       method. Remember that it needs to have these flags set again When the game begins using the reset method.  
     PlayerEntity player = new PlayerEntity(GameEngineConstants.DEFAULT_CANVAS_WIDTH / 2, 560, 0, GameEngineConstants.DEFAULT_CANVAS_WIDTH);
-    player.setColor(SpaceInvaderConstants.PLAYER_COLOR);
+    player.setColor(SIConstants.PLAYER_COLOR);
     player.setVisible(false);     // When the game loads, we do not want the player entity to be seen until the player begins playing the game.
     setNewPlayerEntity(player);
 
     // TODO: This may need to be changed
     // Setup the entity representing the players lives
     playerLives = new PlayerEntity();
-    playerLives.setColor(SpaceInvaderConstants.PLAYER_COLOR);
+    playerLives.setColor(SIConstants.PLAYER_COLOR);
     playerLives.setPositionY(GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083 - playerLives.getHeight());
 
     // Initialize the invaders for the score list that is displayed on the instructions introduction screen
     double rowsSpacing = 0.36;
     introInvaderScoreList = new ArrayList<InvaderEntity>();
-    int pointValue = SpaceInvaderConstants.HIGHEST_INVADER_SCORE;
-    for (int row = 0; row < SpaceInvaderConstants.NUM_INVADER_ROWS; row++)
+    int pointValue = SIConstants.HIGHEST_INVADER_SCORE;
+    for (int row = 0; row < SIConstants.NUM_INVADER_ROWS; row++)
     {
       InvaderEntity invader = new InvaderEntity();
       invader.setPosition(GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.42, GameEngineConstants.DEFAULT_CANVAS_HEIGHT * rowsSpacing);
       invader.reset();
       invader.setPointValue(pointValue);
-      invader.setColor(SpaceInvaderConstants.INVADER_COLORS[row]);
+      invader.setColor(SIConstants.INVADER_COLORS[row]);
       introInvaderScoreList.add(invader);
 
       rowsSpacing += 0.05;
-      pointValue -= SpaceInvaderConstants.INVADER_SCORE_INCREMENT;
+      pointValue -= SIConstants.INVADER_SCORE_INCREMENT;
     }
 
     ufoForIntroScreen = new UFOEntity();
@@ -184,7 +185,7 @@ public class SqaureInvaders extends GameEngine
     gotoIntroInstScreen = false;
 
     // Set the initial the difficulty level
-    currentDifficultyLevel = SpaceInvaderConstants.DifficultyLevels.BEGINNER;
+    currentDifficultyLevel = SIConstants.DifficultyLevels.BEGINNER;
     invaderEntityManager.setNumberOfShotsDifficultyFactor(currentDifficultyLevel);
     invaderEntityManager.setShotProbabilityDifficultyFactor(currentDifficultyLevel);
 
@@ -359,7 +360,7 @@ public class SqaureInvaders extends GameEngine
         {
           Iterator<Entity> enemyIterator = getEnemies().iterator();
 
-          double newInvaderVelocity = invaderEntityManager.getDirection() * ((SpaceInvaderConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SpaceInvaderConstants.INVADER_INITIAL_VELOCITY);
+          double newInvaderVelocity = invaderEntityManager.getDirection() * ((SIConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SIConstants.INVADER_INITIAL_VELOCITY);
 
           while (enemyIterator.hasNext())
           {
@@ -367,7 +368,7 @@ public class SqaureInvaders extends GameEngine
 
             if (currentEnemy.isAlive())
             {
-              if (currentEnemy.getEnemyType() == SpaceInvaderConstants.EnemyTypes.INVADER)
+              if (currentEnemy.getEnemyType() == SIConstants.EnemyTypes.INVADER)
               {
                 // This is not a consistent speed up function
                 //currentEnemy.setVelocityX(currentEnemy.getVelocityX() * SpaceInvaderConstants.INVADER_SPEEDUP_FACTOR);
@@ -448,7 +449,7 @@ public class SqaureInvaders extends GameEngine
 
             playerMovement.reset();
 
-            resumeEnemyMovement((double) invaderEntityManager.getDirection() * ((SpaceInvaderConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SpaceInvaderConstants.INVADER_INITIAL_VELOCITY), 0.0);
+            resumeEnemyMovement((double) invaderEntityManager.getDirection() * ((SIConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SIConstants.INVADER_INITIAL_VELOCITY), 0.0);
           }
           else
           {
@@ -492,7 +493,7 @@ public class SqaureInvaders extends GameEngine
 
       // TODO: Is it better to use the Entity type to filter the entity or use the instanceof method?
       // if (currentEnemy instanceof InvaderEntity)
-      if (currentEnemy.getEnemyType() == SpaceInvaderConstants.EnemyTypes.INVADER)
+      if (currentEnemy.getEnemyType() == SIConstants.EnemyTypes.INVADER)
       {
         if (getEnemyShots().size() < maxNumberInvaderShots)
         {
@@ -532,7 +533,7 @@ public class SqaureInvaders extends GameEngine
         //if (entity2 instanceof EnemyEntity)
         //{ 
         // This seems to work for now, but if an exception occurs where the enemy type condition is met, but the entity is not an EnemyEntity, then the above logic will need to be added
-        if (((EnemyEntity) entity2).getEnemyType() == SpaceInvaderConstants.EnemyTypes.INVADER)
+        if (((EnemyEntity) entity2).getEnemyType() == SIConstants.EnemyTypes.INVADER)
         {
           if (!entity2.isAlive())
           {
@@ -580,133 +581,133 @@ public class SqaureInvaders extends GameEngine
       case INTRODUCTION:
 
         // Draw the game title - Displayed in Yellow
-        g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN_MAIN_TITLE);
+        g.setFont(SIFonts.FONT_INTRO_SCREEN_MAIN_TITLE);
         g.setColor(Color.YELLOW);
-        Rectangle2D boundsIntroScreenTitle = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN_MAIN_TITLE, g);
-        g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN_MAIN_TITLE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreenTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.20)));
+        Rectangle2D boundsIntroScreenTitle = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN_MAIN_TITLE, g);
+        g.drawString(SIConstants.MSG_INTRO_SCREEN_MAIN_TITLE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreenTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.20)));
 
         if (introScreenMainDisplayed)
         {
           // Draw the sub title - Displayed in Yellow
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_SUB_TITLE);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_SUB_TITLE);
           g.setColor(Color.ORANGE);
-          Rectangle2D boundsIntroScreen1SubTitle = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_SUB_TITLE, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_SUB_TITLE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1SubTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.30)));
+          Rectangle2D boundsIntroScreen1SubTitle = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_SUB_TITLE, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_SUB_TITLE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1SubTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.30)));
 
           // Display user instructions to view game instructions
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_DIFFICULTY);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_DIFFICULTY);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen1DifficultyLabel = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_DIFFICULTY_LABEL, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_DIFFICULTY_LABEL, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1DifficultyLabel.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.50))); // Was 72          
+          Rectangle2D boundsIntroScreen1DifficultyLabel = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_DIFFICULTY_LABEL, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_DIFFICULTY_LABEL, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1DifficultyLabel.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.50))); // Was 72          
 
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_DIFFICULTY);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_DIFFICULTY);
           g.setColor(Color.RED);
           Rectangle2D boundsIntroScreen1Difficulty = g.getFontMetrics().getStringBounds(currentDifficultyLevel.toString(), g);
           g.drawString(currentDifficultyLevel.toString(), (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1Difficulty.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.57)));  // Was 79
 
           // Draw the user instructions to begin game
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_INST);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_INST);
           g.setColor(Color.BLUE);
-          Rectangle2D boundsIntroScreen1PressSpace = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_PRESS_SPACE, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_PRESS_SPACE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressSpace.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.67)));
+          Rectangle2D boundsIntroScreen1PressSpace = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_PRESS_SPACE, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_PRESS_SPACE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressSpace.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.67)));
 
           // Display user instructions to view game instructions
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_INST);
-          g.setColor(SpaceInvaderConstants.VIOLET);
-          Rectangle2D boundsIntroScreen1PressI = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_PRESS_I, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_PRESS_I, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressI.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.71)));
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_INST);
+          g.setColor(SIConstants.VIOLET);
+          Rectangle2D boundsIntroScreen1PressI = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_PRESS_I, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_PRESS_I, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressI.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.71)));
 
           // Display user instructions to view game instructions
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_INST);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_INST);
           g.setColor(Color.CYAN);
-          Rectangle2D boundsIntroScreen1PressD = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_PRESS_D, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_PRESS_D, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressD.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.75)));
+          Rectangle2D boundsIntroScreen1PressD = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_PRESS_D, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_PRESS_D, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressD.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.75)));
 
           // Display the credits and copyright 
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_CREDIT);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_CREDIT);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen1Credits = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_CREDIT, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_CREDIT, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1Credits.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.86)));
+          Rectangle2D boundsIntroScreen1Credits = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_CREDIT, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_CREDIT, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1Credits.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.86)));
 
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN1_CREDIT);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN1_CREDIT);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen1Copyright = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN1_COPYRIGHT, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN1_COPYRIGHT, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1Copyright.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.91)));
+          Rectangle2D boundsIntroScreen1Copyright = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN1_COPYRIGHT, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN1_COPYRIGHT, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1Copyright.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.91)));
         }
 
         if (introScreenInstDisplayed)
         {
           // Display score heading
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_SUB_TITLE);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_SUB_TITLE);
           g.setColor(Color.ORANGE);
-          Rectangle2D boundsIntroScreen2SubTitle = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_POINT_VALUES, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_POINT_VALUES, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen2SubTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.30)));
+          Rectangle2D boundsIntroScreen2SubTitle = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_POINT_VALUES, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_POINT_VALUES, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen2SubTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.30)));
 
           // Display score value for invader list
           for (int i = 0; i < introInvaderScoreList.size(); i++)
           {
             introInvaderScoreList.get(i).draw(g);
-            String scoreMsg = introInvaderScoreList.get(i).getPointValue() + SpaceInvaderConstants.MSG_INTRO_SCREEN2_POINTS;
+            String scoreMsg = introInvaderScoreList.get(i).getPointValue() + SIConstants.MSG_INTRO_SCREEN2_POINTS;
 
-            g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_SCORE);
+            g.setFont(SIFonts.FONT_INTRO_SCREEN2_SCORE);
             g.setColor(Color.WHITE);
             g.drawString(scoreMsg, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.47), (int) (introInvaderScoreList.get(i).getPositionY() + introInvaderScoreList.get(i).getHeight()));
           }
 
           // Display the score value of the ufo
           ufoForIntroScreen.draw(g);
-          String ufoScoreMsg = SpaceInvaderConstants.MSG_INTRO_SCREEN2_MYSTERY + SpaceInvaderConstants.MSG_INTRO_SCREEN2_POINTS;
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_SCORE);
+          String ufoScoreMsg = SIConstants.MSG_INTRO_SCREEN2_MYSTERY + SIConstants.MSG_INTRO_SCREEN2_POINTS;
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_SCORE);
           g.setColor(Color.WHITE);
           g.drawString(ufoScoreMsg, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.47), (int) (ufoForIntroScreen.getPositionY() + ufoForIntroScreen.getHeight()));
 
           // Display instructions
 
           // Display instructions heading
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_SUB_TITLE);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_SUB_TITLE);
           g.setColor(Color.BLUE);
-          Rectangle2D boundsIntroScreenInstTitle = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_TITLE, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_TITLE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreenInstTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.73)));
+          Rectangle2D boundsIntroScreenInstTitle = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_INST_TITLE, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_INST_TITLE, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreenInstTitle.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.73)));
 
           // Display Left movement arrow
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_ARROW);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_ARROW);
           g.setColor(Color.WHITE);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_LEFT_ARROW, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.10), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.80)));
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_LEFT_ARROW, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.10), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.80)));
 
           // Display Right movement arrow
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_ARROW);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_ARROW);
           g.setColor(Color.WHITE);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_RIGHT_ARROW, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.10), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.84)));
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_RIGHT_ARROW, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.10), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.84)));
 
           // Display Left movement text
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_INST);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_INST);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen2InstLeft = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_MOVE_LEFT, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_MOVE_LEFT, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.13), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.80) - (boundsIntroScreen2InstLeft.getHeight() / 2) + 2));
+          Rectangle2D boundsIntroScreen2InstLeft = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_INST_MOVE_LEFT, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_INST_MOVE_LEFT, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.13), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.80) - (boundsIntroScreen2InstLeft.getHeight() / 2) + 2));
 
           // Display Right movement text
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_INST);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_INST);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen2InstRight = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_MOVE_RIGHT, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_MOVE_RIGHT, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.13), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.84) - (boundsIntroScreen2InstRight.getHeight() / 2) + 2));
+          Rectangle2D boundsIntroScreen2InstRight = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_INST_MOVE_RIGHT, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_INST_MOVE_RIGHT, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.13), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.84) - (boundsIntroScreen2InstRight.getHeight() / 2) + 2));
 
           // Display Fire command 
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_INST);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_INST);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen2InstFire = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_FIRE, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_FIRE, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.35), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.80) - (boundsIntroScreen2InstFire.getHeight() / 2) + 2));
+          Rectangle2D boundsIntroScreen2InstFire = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_INST_FIRE, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_INST_FIRE, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.35), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.80) - (boundsIntroScreen2InstFire.getHeight() / 2) + 2));
 
           // Display Fire command 
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_INST);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_INST);
           g.setColor(Color.WHITE);
-          Rectangle2D boundsIntroScreen2InstPause = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_PAUSE, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_INST_PAUSE, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.35), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.84) - (boundsIntroScreen2InstPause.getHeight() / 2) + 2));
+          Rectangle2D boundsIntroScreen2InstPause = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_INST_PAUSE, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_INST_PAUSE, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.35), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.84) - (boundsIntroScreen2InstPause.getHeight() / 2) + 2));
 
           // Draw the user instructions to begin game
-          g.setFont(SpaceInvaderFonts.FONT_INTRO_SCREEN2_INST_TYPE2);
+          g.setFont(SIFonts.FONT_INTRO_SCREEN2_INST_TYPE2);
           g.setColor(Color.YELLOW);
-          Rectangle2D boundsIntroScreen1PressEsc = g.getFontMetrics().getStringBounds(SpaceInvaderConstants.MSG_INTRO_SCREEN2_PRESS_ENTER, g);
-          g.drawString(SpaceInvaderConstants.MSG_INTRO_SCREEN2_PRESS_ENTER, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressEsc.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.91)));
+          Rectangle2D boundsIntroScreen1PressEsc = g.getFontMetrics().getStringBounds(SIConstants.MSG_INTRO_SCREEN2_PRESS_ENTER, g);
+          g.drawString(SIConstants.MSG_INTRO_SCREEN2_PRESS_ENTER, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsIntroScreen1PressEsc.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.91)));
         }
 
         break;
@@ -714,17 +715,12 @@ public class SqaureInvaders extends GameEngine
       case GAME_START:
 
         // Display the text "Starting Game" above the text "Get Ready"
-        Font f = new Font("Verdana", Font.BOLD, 28);
-        String msgLine1 = "Starting Game";
-        String msgLine2 = "Get Ready";
-
-        g.setFont(f);
+        g.setFont(SIFonts.FONT_GAME_START);
         g.setColor(Color.WHITE);
-        Rectangle2D boundsLine1 = g.getFontMetrics().getStringBounds(msgLine1, g);
-        Rectangle2D boundsLine2 = g.getFontMetrics().getStringBounds(msgLine2, g);
-
-        g.drawString(msgLine1, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsLine1.getWidth()) / 2), 300);
-        g.drawString(msgLine2, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsLine2.getWidth()) / 2), 400);
+        Rectangle2D boundsLine1 = g.getFontMetrics().getStringBounds(SIConstants.MSG_GAME_START_SCREEN_STARTING, g);
+        Rectangle2D boundsLine2 = g.getFontMetrics().getStringBounds(SIConstants.MSG_GAME_START_SCREEN_READY, g);
+        g.drawString(SIConstants.MSG_GAME_START_SCREEN_STARTING, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsLine1.getWidth()) / 2), 300);
+        g.drawString(SIConstants.MSG_GAME_START_SCREEN_READY, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsLine2.getWidth()) / 2), 400);
 
         break;
 
@@ -751,22 +747,22 @@ public class SqaureInvaders extends GameEngine
         drawCustomEntityList(g);
 
         // Draw the Level number
-        g.setFont(SpaceInvaderFonts.FONT_PLAYING_LEVEL);
+        g.setFont(SIFonts.FONT_PLAYING_LEVEL);
         g.setColor(Color.WHITE);
-        String levelMsg = "Level " + GameUtility.lPadZero(currentLevel, 2);
+        String levelMsg = SIConstants.MSG_PLAYING_LEVEL + GameUtility.lPadZero(currentLevel, 2);
         g.drawString(levelMsg, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.10), (int) (GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083));
 
         // Draw the score
-        g.setFont(SpaceInvaderFonts.FONT_PLAYING_SCORE);
+        g.setFont(SIFonts.FONT_PLAYING_SCORE);
         g.setColor(Color.WHITE);
-        String scoreMsg = "Score: " + GameUtility.lPadZero(ScoreManager.getScore(), 6);
+        String scoreMsg = SIConstants.MSG_PLAYING_SCORE + GameUtility.lPadZero(ScoreManager.getScore(), 6);
         Rectangle2D boundsScore = g.getFontMetrics().getStringBounds(scoreMsg, g);
         g.drawString(scoreMsg, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsScore.getWidth()) / 2), (int) (GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083));
 
         // Draw the players lives
-        g.setFont(SpaceInvaderFonts.FONT_PLAYING_LIVES);
+        g.setFont(SIFonts.FONT_PLAYING_LIVES);
         g.setColor(Color.WHITE);
-        g.drawString("Lives: ", (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.70), (int) (GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083));
+        g.drawString(SIConstants.MSG_PLAYING_LIVES, (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.70), (int) (GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083));
         int xOffset = (int) (GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.80);
         for (int i = 0; i < ((PlayerEntity) getPlayer()).getNumberOfLives(); i++)
         {
@@ -802,9 +798,9 @@ public class SqaureInvaders extends GameEngine
 
     if (displayDebugInfo)
     {
-      g.setFont(new Font("Dialog", Font.PLAIN, 14));
+      g.setFont(SIDebugConstants.FONT_DEBUG);
       g.setColor(Color.WHITE);
-      g.drawString("state: " + state.toString(), 560, line);
+      g.drawString(SIDebugConstants.DEBUG_MSG_STATE + state.toString(), 560, line);
       line += 16;
     }
 
@@ -812,32 +808,23 @@ public class SqaureInvaders extends GameEngine
     {
       case GAMEOVER:
 
-        // Draw the paused message
-        Font gameOverFont = new Font("Verdana", Font.BOLD, 32);
-        String gameOverMsg = "GAME OVER";
-
-        g.setFont(gameOverFont);
+        // Draw the "GAME OVER" message
+        g.setFont(SIFonts.FONT_PLAYING_GAMEOVER);
         g.setColor(Color.WHITE);
-
-        Rectangle2D boundsGameOver = g.getFontMetrics().getStringBounds(gameOverMsg, g);
-        g.drawString(gameOverMsg, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsGameOver.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsGameOver.getHeight()) / 2));
+        Rectangle2D boundsGameOver = g.getFontMetrics().getStringBounds(SIConstants.MSG_PLAYING_GAMEOVER, g);
+        g.drawString(SIConstants.MSG_PLAYING_GAMEOVER, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsGameOver.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsGameOver.getHeight()) / 2));
 
         break;
 
       case LEVEL_NEXT:
 
         // Display the text "Starting Game" above the text "Get Ready"
-        Font fNextLevel = new Font("Verdana", Font.BOLD, 28);
-        String msgNextLevelLine1 = "Level " + (currentLevel + 1);
-        String msgNextLevelLine2 = "Get Ready";
+        String msgNextLevelLine1 = SIConstants.MSG_PLAYING_NEXT_LEVEL + (currentLevel + 1);
 
-        g.setFont(fNextLevel);
+        g.setFont(SIFonts.FONT_PLAYING_NEXT_LEVEL);
         g.setColor(Color.WHITE);
         Rectangle2D boundsNextLevelLine1 = g.getFontMetrics().getStringBounds(msgNextLevelLine1, g);
-        Rectangle2D boundsNextLevelLine2 = g.getFontMetrics().getStringBounds(msgNextLevelLine2, g);
-
         g.drawString(msgNextLevelLine1, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsNextLevelLine1.getWidth()) / 2), 300);
-        g.drawString(msgNextLevelLine2, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsNextLevelLine2.getWidth()) / 2), 400);
 
         break;
 
@@ -845,29 +832,29 @@ public class SqaureInvaders extends GameEngine
 
         if (displayDebugInfo)
         {
-          g.setFont(new Font("Dialog", Font.PLAIN, 14));
+          g.setFont(SIDebugConstants.FONT_DEBUG);
           g.setColor(Color.WHITE);
-          g.drawString("Num Aliens: " + invaderCount, 560, line);
+          g.drawString(SIDebugConstants.DEBUG_MSG_NUM_INVADERS + invaderCount, 560, line);
           line += 16;
-          DecimalFormat probf = new DecimalFormat("0.000000000");  // this will helps you to always keeps in two decimal places
-          g.drawString("UFO Probability: " + probf.format(ufoEntityManager.getProbability()), 560, line);
+          DecimalFormat probf = new DecimalFormat(SIDebugConstants.DEBUG_DECIMAL_FORMAT);  // this will helps you to always keeps in two decimal places
+          g.drawString(SIDebugConstants.DEBUG_MSG_UFO_PROBABILITY + probf.format(ufoEntityManager.getProbability()), 560, line);
           line += 16;
-          g.drawString("Num Shots Difficulty Factor: " + invaderEntityManager.getNumberOfShotsDifficultyFactor(), 560, line);
+          g.drawString(SIDebugConstants.DEBUG_MSG_NUM_SHOTS_DIFF_FACTOR + invaderEntityManager.getNumberOfShotsDifficultyFactor(), 560, line);
           line += 16;
-          g.drawString("Shot Prob Difficulty Factor: " + invaderEntityManager.getShotProbabilityDifficultyFactor(), 560, line);
+          g.drawString(SIDebugConstants.DEBUG_MSG_SHOT_PROB_DIFF_FACTOR + invaderEntityManager.getShotProbabilityDifficultyFactor(), 560, line);
           line += 16;
-          g.drawString("Max Invader Shots: " + maxNumberInvaderShots, 560, line);
+          g.drawString(SIDebugConstants.DEBUG_MSG_MAX_INVADER_SHOTS + maxNumberInvaderShots, 560, line);
           line += 16;
-          probf = new DecimalFormat("0.000000000");
-          g.drawString("Invader Shot Prob: " + probf.format(invaderEntityManager.getInvaderShotProbabilityForCurrentLevel()), 560, line);
+          probf = new DecimalFormat(SIDebugConstants.DEBUG_DECIMAL_FORMAT);
+          g.drawString(SIDebugConstants.DEBUG_MSG_INVADER_SHOT_PROB + probf.format(invaderEntityManager.getInvaderShotProbabilityForCurrentLevel()), 560, line);
           line += 16;
-          g.drawString("Invader Time Btw Intervals: " + InvaderEntity.DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS, 560, line);
+          g.drawString(SIDebugConstants.DEBUG_MSG_INVADER_INTERVAL_TIME + InvaderEntity.DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS, 560, line);
           line += 16;
 
           if (getEnemies().size() == 0)
-            g.drawString("Invader Velocity: ALL DEAD", 560, line);
+            g.drawString(SIDebugConstants.DEBUG_MSG_INVADER_VELOCITY_ALL_DEAD, 560, line);
           else
-            g.drawString("Invader Velocity: " + getEnemies().get(0).getVelocityX(), 560, line);
+            g.drawString(SIDebugConstants.DEBUG_MSG_INVADER_VELOCITY + getEnemies().get(0).getVelocityX(), 560, line);
         }
 
         break;
@@ -875,42 +862,30 @@ public class SqaureInvaders extends GameEngine
       case PAUSED:
 
         // Draw the paused message
-        Font pausedFont = new Font("Verdana", Font.BOLD, 28);
-        String pausedMsg = "GAME PAUSED";
-
-        g.setFont(pausedFont);
+        g.setFont(SIFonts.FONT_PLAYING_PAUSED);
         g.setColor(Color.WHITE);
-
-        Rectangle2D boundsPaused = g.getFontMetrics().getStringBounds(pausedMsg, g);
-        g.drawString(pausedMsg, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsPaused.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsPaused.getHeight()) / 2));
+        Rectangle2D boundsPaused = g.getFontMetrics().getStringBounds(SIConstants.MSG_PLAYING_PAUSED, g);
+        g.drawString(SIConstants.MSG_PLAYING_PAUSED, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsPaused.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsPaused.getHeight()) / 2));
 
         break;
 
       case EXIT_PLAYING_GAME:
 
-        // Draw the paused message
-        Font exitPlayingFont = new Font("Verdana", Font.BOLD, 28);
-        String exitPlayingMsg = "Do You Want To Quit Playing (Y/N)?";
-
-        g.setFont(exitPlayingFont);
+        // Draw the message asking player if they want to exit from plating the game. 
+        g.setFont(SIFonts.FONT_PLAYING_EXIT_PLAYING_GAME);
         g.setColor(Color.WHITE);
-
-        Rectangle2D boundsExitPlaying = g.getFontMetrics().getStringBounds(exitPlayingMsg, g);
-        g.drawString(exitPlayingMsg, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsExitPlaying.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsExitPlaying.getHeight()) / 2));
+        Rectangle2D boundsExitPlaying = g.getFontMetrics().getStringBounds(SIConstants.MSG_PLAYING_EXIT_PLAYING_GAME, g);
+        g.drawString(SIConstants.MSG_PLAYING_EXIT_PLAYING_GAME, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsExitPlaying.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsExitPlaying.getHeight()) / 2));
 
         break;
 
       case PLAYER_DEAD:
 
-        // Draw the paused message
-        Font playerDeadFont = new Font("Verdana", Font.BOLD, 32);
-        String playerDeadMsg = "You Were Hit!!!";
-
-        g.setFont(playerDeadFont);
+        // Draw the player dead message after they were hit with an enemy shot.
+        g.setFont(SIFonts.FONT_PLAYING_PLAYER_DEAD);
         g.setColor(Color.WHITE);
-
-        Rectangle2D boundsPlayerDead = g.getFontMetrics().getStringBounds(playerDeadMsg, g);
-        g.drawString(playerDeadMsg, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsPlayerDead.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsPlayerDead.getHeight()) / 2));
+        Rectangle2D boundsPlayerDead = g.getFontMetrics().getStringBounds(SIConstants.MSG_PLAYING_PLAYER_DEAD, g);
+        g.drawString(SIConstants.MSG_PLAYING_PLAYER_DEAD, (int) ((GameEngineConstants.DEFAULT_CANVAS_WIDTH - boundsPlayerDead.getWidth()) / 2), (int) ((GameEngineConstants.DEFAULT_CANVAS_HEIGHT - boundsPlayerDead.getHeight()) / 2));
 
         break;
 
@@ -989,12 +964,12 @@ public class SqaureInvaders extends GameEngine
 
         if (playerMovement.keyLeft())
         {
-          deltaX -= SpaceInvaderConstants.PLAYER_VELOCITY;
+          deltaX -= SIConstants.PLAYER_VELOCITY;
         }
 
         if (playerMovement.keyRight())
         {
-          deltaX += SpaceInvaderConstants.PLAYER_VELOCITY;
+          deltaX += SIConstants.PLAYER_VELOCITY;
         }
 
         getPlayer().setVelocityX(deltaX);
@@ -1265,12 +1240,11 @@ public class SqaureInvaders extends GameEngine
       {
         InvaderEntity demoInvader = new InvaderEntity();
         demoInvader.setPosition(-300 + (col * 50), (rowPosition) + row * 30);
-        demoInvader.setVelocity(SpaceInvaderConstants.INVADER_INITIAL_VELOCITY * 3.0, 0);
-        demoInvader.setColor(SpaceInvaderConstants.INVADER_COLORS[col]);
+        demoInvader.setVelocity(SIConstants.INVADER_INITIAL_VELOCITY * 3.0, 0);
+        demoInvader.setColor(SIConstants.INVADER_COLORS[col]);
         addEnemy(demoInvader);
       }
     }
-    System.out.println("Creating Demo");
   }
 
   // TODO: This function might be better suited for the invader entity manager
@@ -1282,7 +1256,7 @@ public class SqaureInvaders extends GameEngine
     {
       EnemyEntity currentEnemy = (EnemyEntity) getEnemies().get(i);
 
-      if (currentEnemy.getEnemyType() == SpaceInvaderConstants.EnemyTypes.INVADER)
+      if (currentEnemy.getEnemyType() == SIConstants.EnemyTypes.INVADER)
       {
         currentEnemy.setVelocity(velocityX, velocityY);
       }
@@ -1301,7 +1275,7 @@ public class SqaureInvaders extends GameEngine
     {
       EnemyEntity currentEnemy = (EnemyEntity) getEnemies().get(i);
 
-      if (currentEnemy.getEnemyType() == SpaceInvaderConstants.EnemyTypes.INVADER)
+      if (currentEnemy.getEnemyType() == SIConstants.EnemyTypes.INVADER)
       {
         currentEnemy.setVelocity(0.0, 0.0);
       }
@@ -1310,52 +1284,50 @@ public class SqaureInvaders extends GameEngine
 
   private void initializeInvaders()
   {
-    int pointValue = SpaceInvaderConstants.HIGHEST_INVADER_SCORE;
+    int pointValue = SIConstants.HIGHEST_INVADER_SCORE;
 
     // Create a block of aliens (5 rows, by 12 aliens, spaced evenly)
     clearEnemies();
     invaderCount = 0;
 
-    for (int row = 0; row < SpaceInvaderConstants.NUM_INVADER_ROWS; row++)
+    for (int row = 0; row < SIConstants.NUM_INVADER_ROWS; row++)
     {
-      for (int col = 0; col < SpaceInvaderConstants.NUM_INVADER_COLS; col++)
+      for (int col = 0; col < SIConstants.NUM_INVADER_COLS; col++)
       {
         InvaderEntity invader = new InvaderEntity(invaderEntityManager, 20, 780, 560 + getPlayer().getHeight());
         invader.setPosition(32 + (col * 48), (invaderStartingRowPosition) + row * 32);
-        invader.setVelocity(SpaceInvaderConstants.INVADER_INITIAL_VELOCITY, 0);
-        invader.setColor(SpaceInvaderConstants.INVADER_COLORS[row]);
+        invader.setVelocity(SIConstants.INVADER_INITIAL_VELOCITY, 0);
+        invader.setColor(SIConstants.INVADER_COLORS[row]);
         invader.setPointValue(pointValue);
         addEnemy(invader);
         invaderCount++;
-        //System.out.println("Invader count updated: " + invaderCount);
       }
-      pointValue -= SpaceInvaderConstants.INVADER_SCORE_INCREMENT;
+      pointValue -= SIConstants.INVADER_SCORE_INCREMENT;
     }
   }
 
   private void initializeMultiHitInvaders()
   {
-    int pointValue = SpaceInvaderConstants.HIGHEST_INVADER_SCORE;
+    int pointValue = SIConstants.HIGHEST_INVADER_SCORE;
 
     // Create a block of aliens (5 rows, by 12 aliens, spaced evenly)
     clearEnemies();
     invaderCount = 0;
 
-    for (int row = 0; row < SpaceInvaderConstants.NUM_INVADER_ROWS; row++)
+    for (int row = 0; row < SIConstants.NUM_INVADER_ROWS; row++)
     {
-      for (int col = 0; col < SpaceInvaderConstants.NUM_INVADER_COLS; col++)
+      for (int col = 0; col < SIConstants.NUM_INVADER_COLS; col++)
       {
         InvaderEntityMultipleHits invader = new InvaderEntityMultipleHits(invaderEntityManager, 20, 780, 560);
         invader.setPosition(32 + (col * 48), (invaderStartingRowPosition) + row * 32);
-        invader.setVelocity(SpaceInvaderConstants.INVADER_INITIAL_VELOCITY, 0);
-        invader.setColor(SpaceInvaderConstants.INVADER_COLORS[row]);
+        invader.setVelocity(SIConstants.INVADER_INITIAL_VELOCITY, 0);
+        invader.setColor(SIConstants.INVADER_COLORS[row]);
         invader.setNumHits(row);
         invader.setPointValue(pointValue);
         addEnemy(invader);
         invaderCount++;
-        //System.out.println("Invader count updated: " + invaderCount);
       }
-      pointValue -= SpaceInvaderConstants.INVADER_SCORE_INCREMENT;
+      pointValue -= SIConstants.INVADER_SCORE_INCREMENT;
     }
   }
 
@@ -1397,7 +1369,7 @@ public class SqaureInvaders extends GameEngine
     for (int i = 0; i < NUMBER_OF_BACKGROUND_STARS; i++)
     {
       Entity star = new Entity();
-      star.setColor(SpaceInvaderConstants.STAR_COLORS[GameUtility.random.nextInt(SpaceInvaderConstants.STAR_COLORS.length)]);
+      star.setColor(SIConstants.STAR_COLORS[GameUtility.random.nextInt(SIConstants.STAR_COLORS.length)]);
       int starDimensions = GameUtility.random.nextInt(3) + 1;
       star.setDimensions(starDimensions, starDimensions);
       star.setPosition(GameUtility.random.nextInt(GameEngineConstants.DEFAULT_CANVAS_WIDTH), GameUtility.random.nextInt(GameEngineConstants.DEFAULT_CANVAS_HEIGHT - 40));
@@ -1468,8 +1440,8 @@ public class SqaureInvaders extends GameEngine
   {
     angle = 90 + angle;
 
-    double svx = calcAngleMoveX(angle) * SpaceInvaderConstants.BULLET_SPEED;
-    double svy = calcAngleMoveY(angle) * SpaceInvaderConstants.BULLET_SPEED;
+    double svx = calcAngleMoveX(angle) * SIConstants.BULLET_SPEED;
+    double svy = calcAngleMoveY(angle) * SIConstants.BULLET_SPEED;
     sprite.setVelocity(svx, svy);
   }
 }

@@ -2,7 +2,7 @@ package sqaureinvaders.constants;
 
 import java.awt.Color;
 
-public class SpaceInvaderConstants
+public class SIConstants
 {
   public static enum EnemyTypes
   {
@@ -28,13 +28,13 @@ public class SpaceInvaderConstants
   public static final Color[]  STAR_COLORS                                             = new Color[] { Color.WHITE, Color.LIGHT_GRAY, Color.DARK_GRAY, Color.RED.darker(), Color.ORANGE.darker(), Color.YELLOW.darker(), Color.GREEN.darker(), Color.BLUE.darker(), INDIGO.darker(), VIOLET.darker() };
   public static final int      INITIAL_BULLET_SPEED                                    = 120;                                                                                                                                                                                                          // Invader shot speed
   public static final int      INVADER_INITIAL_VELOCITY                                = 20;
-  public static final int      NUM_INVADER_ROWS                                        = SpaceInvaderConstants.INVADER_COLORS.length;
+  public static final int      NUM_INVADER_ROWS                                        = SIConstants.INVADER_COLORS.length;
   public static final int      NUM_INVADER_COLS                                        = 12;
   public static final int      NUM_INVADERS                                            = NUM_INVADER_ROWS * NUM_INVADER_COLS;
   public static final double[] UFO_SPEEDS                                              = new double[] { 50, 75, 100, 125, 150, 175, 200 };
-  public static final int                       HIGHEST_INVADER_SCORE      = 60;
-  public static final int                       INVADER_SCORE_INCREMENT    = 10;
-  
+  public static final int      HIGHEST_INVADER_SCORE                                   = 60;
+  public static final int      INVADER_SCORE_INCREMENT                                 = 10;
+
   /*
    *  Constants for the player's entity 
    */
@@ -69,11 +69,6 @@ public class SpaceInvaderConstants
   public static final double   INVADER_SPEEDUP_FACTOR_INTERMEDIATE                     = 3.00;
   public static final double   INVADER_SPEEDUP_FACTOR_ADVANCED                         = 4.00;
 
-  // Values used without the delta
-  //  public static final double   INVADER_SPEEDUP_FACTOR_EASY                             = 0.025;
-  //  public static final double   INVADER_SPEEDUP_FACTOR_INTERMEDIATE                     = 0.035;
-  //  public static final double   INVADER_SPEEDUP_FACTOR_ADVANCED                         = 0.050;
-
   /*
    * String constants used in the game
    */
@@ -81,7 +76,7 @@ public class SpaceInvaderConstants
   // Main title
   public static final String   MSG_INTRO_SCREEN_MAIN_TITLE                             = "Square Invaders";
 
-  // Messages for the introduction screen 1 (Main Screen)
+  // Strings for the introduction screen 1 (Main Screen)
   public static final String   MSG_INTRO_SCREEN1_SUB_TITLE                             = "Another Clone of a Great Arcade Classic";
   public static final String   MSG_INTRO_SCREEN1_PRESS_SPACE                           = "Press 'SPACE' to Begin Game";
   public static final String   MSG_INTRO_SCREEN1_PRESS_I                               = "Press 'I' for Game Instructions";
@@ -93,7 +88,7 @@ public class SpaceInvaderConstants
   public static final String   MSG_INTRO_SCREEN1_DIFFICULTY_INTERMEDIATE               = "INTERMEDIATE";
   public static final String   MSG_INTRO_SCREEN1_DIFFICULTY_ADVANCED                   = "ADVANCED";
 
-  // Messages for the introduction screen 2 (Instructions)
+  // Strings for the introduction screen 2 (Instructions)
   public static final String   MSG_INTRO_SCREEN2_POINT_VALUES                          = "Invader Point Values";
   public static final String   MSG_INTRO_SCREEN2_POINTS                                = " Points";
   public static final String   MSG_INTRO_SCREEN2_MYSTERY                               = "??";
@@ -106,5 +101,17 @@ public class SpaceInvaderConstants
   public static final String   MSG_INTRO_SCREEN2_INST_PAUSE                            = "P - Pause Game";
   public static final String   MSG_INTRO_SCREEN2_PRESS_ENTER                           = "Press 'ENTER/RETURN' to return to main menu";
 
+  // Strings Strings for the game start screen
+  public static final String   MSG_GAME_START_SCREEN_STARTING                          = "Starting Game";
+  public static final String   MSG_GAME_START_SCREEN_READY                             = "Get Ready";
+
   // Messages for the game screen
+  public static final String   MSG_PLAYING_SCORE                                       = "Score: ";
+  public static final String   MSG_PLAYING_LEVEL                                       = "Level ";
+  public static final String   MSG_PLAYING_LIVES                                       = "Lives: ";
+  public static final String   MSG_PLAYING_GAMEOVER                                    = "GAME OVER";
+  public static final String   MSG_PLAYING_PAUSED                                      = "GAME PAUSED";
+  public static final String   MSG_PLAYING_NEXT_LEVEL                                  = "Get Ready for Level ";
+  public static final String   MSG_PLAYING_EXIT_PLAYING_GAME                           = "Do You Want To Quit Playing (y/n)?";
+  public static final String   MSG_PLAYING_PLAYER_DEAD = "You Were Hit!!!";
 }

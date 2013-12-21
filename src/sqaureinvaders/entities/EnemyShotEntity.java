@@ -2,7 +2,7 @@ package sqaureinvaders.entities;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
+import sqaureinvaders.constants.SIConstants;
 import game.framework.entities.Entity;
 
 public class EnemyShotEntity extends Entity
@@ -38,7 +38,7 @@ public class EnemyShotEntity extends Entity
 
     // Center the shot so that is exits the players ship at the center
     this.setPosition(startingPosition - this.getWidth() / 2, endingPosition);
-    this.setVelocity(0, SpaceInvaderConstants.INITIAL_BULLET_SPEED * speedUpValue);
+    this.setVelocity(0, SIConstants.INITIAL_BULLET_SPEED * speedUpValue);
     this.bottomOfScreen = bottomOfScreen;
   }
 

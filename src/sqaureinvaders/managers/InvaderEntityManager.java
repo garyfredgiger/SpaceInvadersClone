@@ -1,7 +1,7 @@
 package sqaureinvaders.managers;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
-import sqaureinvaders.constants.SpaceInvaderConstants.DifficultyLevels;
+import sqaureinvaders.constants.SIConstants;
+import sqaureinvaders.constants.SIConstants.DifficultyLevels;
 
 public class InvaderEntityManager
 {
@@ -41,8 +41,8 @@ public class InvaderEntityManager
 
   public InvaderEntityManager()
   {
-    userSpecifiedNumberOfShotsDifficultyFactor = SpaceInvaderConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_EASY;
-    userSpecifiedShotProbabilityDifficultyFactor = SpaceInvaderConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_EASY;
+    userSpecifiedNumberOfShotsDifficultyFactor = SIConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_EASY;
+    userSpecifiedShotProbabilityDifficultyFactor = SIConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_EASY;
     reset();
   }
 
@@ -144,44 +144,44 @@ public class InvaderEntityManager
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  public void setNumberOfShotsDifficultyFactor(SpaceInvaderConstants.DifficultyLevels level)
+  public void setNumberOfShotsDifficultyFactor(SIConstants.DifficultyLevels level)
   {
     switch (level)
     {
       case INTERMEDIATE:
-        invaderSpeedupFactor = SpaceInvaderConstants.INVADER_SPEEDUP_FACTOR_INTERMEDIATE;
-        currentNumbeOfShots = SpaceInvaderConstants.INVADER_STARTING_NUMBER_OF_SHOTS_INTERMEDIATE;
-        userSpecifiedNumberOfShotsDifficultyFactor = SpaceInvaderConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_INTERMEDIATE;
+        invaderSpeedupFactor = SIConstants.INVADER_SPEEDUP_FACTOR_INTERMEDIATE;
+        currentNumbeOfShots = SIConstants.INVADER_STARTING_NUMBER_OF_SHOTS_INTERMEDIATE;
+        userSpecifiedNumberOfShotsDifficultyFactor = SIConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_INTERMEDIATE;
         break;
 
       case ADVANCED:
-        invaderSpeedupFactor = SpaceInvaderConstants.INVADER_SPEEDUP_FACTOR_ADVANCED;
-        currentNumbeOfShots = SpaceInvaderConstants.INVADER_STARTING_NUMBER_OF_SHOTS_ADVANCED;
-        userSpecifiedNumberOfShotsDifficultyFactor = SpaceInvaderConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_ADVANCED;
+        invaderSpeedupFactor = SIConstants.INVADER_SPEEDUP_FACTOR_ADVANCED;
+        currentNumbeOfShots = SIConstants.INVADER_STARTING_NUMBER_OF_SHOTS_ADVANCED;
+        userSpecifiedNumberOfShotsDifficultyFactor = SIConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_ADVANCED;
         break;
 
       default:
-        invaderSpeedupFactor = SpaceInvaderConstants.INVADER_SPEEDUP_FACTOR_EASY;
-        currentNumbeOfShots = SpaceInvaderConstants.INVADER_STARTING_NUMBER_OF_SHOTS_EASY;
-        userSpecifiedNumberOfShotsDifficultyFactor = SpaceInvaderConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_EASY;
+        invaderSpeedupFactor = SIConstants.INVADER_SPEEDUP_FACTOR_EASY;
+        currentNumbeOfShots = SIConstants.INVADER_STARTING_NUMBER_OF_SHOTS_EASY;
+        userSpecifiedNumberOfShotsDifficultyFactor = SIConstants.INVADER_NUMBER_OF_SHOTS_DIFFICULTY_FACTOR_EASY;
     }
   }
 
-  public void setShotProbabilityDifficultyFactor(SpaceInvaderConstants.DifficultyLevels level)
+  public void setShotProbabilityDifficultyFactor(SIConstants.DifficultyLevels level)
   {
     switch (level)
     {
       case INTERMEDIATE:
-        userSpecifiedShotProbabilityDifficultyFactor = SpaceInvaderConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_INTERMEDIATE;
+        userSpecifiedShotProbabilityDifficultyFactor = SIConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_INTERMEDIATE;
         break;
 
       case ADVANCED:
-        userSpecifiedShotProbabilityDifficultyFactor = SpaceInvaderConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_ADVANCED;
+        userSpecifiedShotProbabilityDifficultyFactor = SIConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_ADVANCED;
         break;
 
       default:
 
-        userSpecifiedShotProbabilityDifficultyFactor = SpaceInvaderConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_EASY;
+        userSpecifiedShotProbabilityDifficultyFactor = SIConstants.INVADER_SHOT_PROBABILITY_DIFFICULTY_FACTOR_EASY;
     }
   }
 

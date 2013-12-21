@@ -4,8 +4,8 @@ import game.framework.utilities.*;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
-import sqaureinvaders.constants.SpaceInvaderConstants.EnemyTypes;
+import sqaureinvaders.constants.SIConstants;
+import sqaureinvaders.constants.SIConstants.EnemyTypes;
 import sqaureinvaders.managers.UFOEntityManager;
 
 public class UFOEntity extends EnemyEntity
@@ -36,7 +36,7 @@ public class UFOEntity extends EnemyEntity
     this.setPosition(0, VERTICAL_POSITION);
     //this.setVelocity(50, 0);
 
-    this.setEnemyType(SpaceInvaderConstants.EnemyTypes.UFO);
+    this.setEnemyType(SIConstants.EnemyTypes.UFO);
     this.setPointValue((GameUtility.random.nextInt(10) + 1) * 100);
   }
 

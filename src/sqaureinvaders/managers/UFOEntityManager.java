@@ -1,6 +1,6 @@
 package sqaureinvaders.managers;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
+import sqaureinvaders.constants.SIConstants;
 import game.framework.utilities.GameUtility;
 
 // TODO: Should this be made a singleton
@@ -102,7 +102,7 @@ public class UFOEntityManager
 
   public double getUFOSpeed()
   {
-    return SpaceInvaderConstants.UFO_SPEEDS[GameUtility.random.nextInt(SpaceInvaderConstants.UFO_SPEEDS.length)];
+    return SIConstants.UFO_SPEEDS[GameUtility.random.nextInt(SIConstants.UFO_SPEEDS.length)];
   }
 
   /*

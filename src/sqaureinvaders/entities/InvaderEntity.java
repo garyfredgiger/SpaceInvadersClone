@@ -2,8 +2,8 @@ package sqaureinvaders.entities;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SpaceInvaderConstants;
-import sqaureinvaders.constants.SpaceInvaderConstants.EnemyTypes;
+import sqaureinvaders.constants.SIConstants;
+import sqaureinvaders.constants.SIConstants.EnemyTypes;
 import sqaureinvaders.managers.InvaderEntityManager;
 import game.framework.utilities.GameUtility;
 
@@ -38,7 +38,7 @@ public class InvaderEntity extends EnemyEntity
     this.leftScreenBoundary = leftScreenBoundary;
     this.rightScreenBoundary = rightScreenBoundary;
     this.bottomOfScreen = bottomOfScreen;
-    this.setEnemyType(SpaceInvaderConstants.EnemyTypes.INVADER);
+    this.setEnemyType(SIConstants.EnemyTypes.INVADER);
 
     // Initialize variables responsible for 
     lastShotTime = System.currentTimeMillis();

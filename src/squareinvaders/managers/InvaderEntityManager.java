@@ -1,6 +1,6 @@
-package sqaureinvaders.managers;
+package squareinvaders.managers;
 
-import sqaureinvaders.constants.SIConstants;
+import squareinvaders.constants.SIConstants;
 
 public class InvaderEntityManager
 {

@@ -1,4 +1,4 @@
-package sqaureinvaders.managers;
+package squareinvaders.managers;
 
 public class ScoreManager
 {

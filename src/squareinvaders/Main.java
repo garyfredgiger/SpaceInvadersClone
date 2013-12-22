@@ -1,4 +1,4 @@
-package sqaureinvaders;
+package squareinvaders;
 
 import game.framework.interfaces.IRender;
 import game.framework.utilities.GameEngineConstants;
@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import sqaureinvaders.constants.SIConstants;
+import squareinvaders.constants.SIConstants;
 
 public class Main extends JFrame
 {

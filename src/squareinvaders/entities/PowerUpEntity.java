@@ -1,4 +1,4 @@
-package sqaureinvaders.entities;
+package squareinvaders.entities;
 
 import game.framework.entities.Entity;
 import java.awt.Color;

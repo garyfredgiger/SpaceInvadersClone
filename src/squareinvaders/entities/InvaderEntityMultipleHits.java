@@ -1,9 +1,9 @@
-package sqaureinvaders.entities;
+package squareinvaders.entities;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.managers.InvaderEntityManager;
+import squareinvaders.constants.SIConstants;
+import squareinvaders.managers.InvaderEntityManager;
 
 public class InvaderEntityMultipleHits extends InvaderEntity
 {

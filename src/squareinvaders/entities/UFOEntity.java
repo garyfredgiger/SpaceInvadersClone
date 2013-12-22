@@ -1,11 +1,11 @@
-package sqaureinvaders.entities;
+package squareinvaders.entities;
 
 import game.framework.utilities.*;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.managers.UFOEntityManager;
+import squareinvaders.constants.SIConstants;
+import squareinvaders.managers.UFOEntityManager;
 
 public class UFOEntity extends EnemyEntity
 {

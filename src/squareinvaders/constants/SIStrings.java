@@ -1,4 +1,4 @@
-package sqaureinvaders.constants;
+package squareinvaders.constants;
 
 public class SIStrings
 {

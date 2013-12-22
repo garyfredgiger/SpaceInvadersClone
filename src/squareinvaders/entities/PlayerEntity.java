@@ -1,6 +1,6 @@
-package sqaureinvaders.entities;
+package squareinvaders.entities;
 
-import sqaureinvaders.constants.SIConstants;
+import squareinvaders.constants.SIConstants;
 import game.framework.entities.Entity;
 import game.framework.utilities.GameEngineConstants;
 

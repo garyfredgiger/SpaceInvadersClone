@@ -1,6 +1,6 @@
-package sqaureinvaders.managers;
+package squareinvaders.managers;
 
-import sqaureinvaders.constants.SIConstants;
+import squareinvaders.constants.SIConstants;
 import game.framework.utilities.GameUtility;
 
 // TODO: Should this be made a singleton

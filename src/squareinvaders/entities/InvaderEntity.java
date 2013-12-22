@@ -1,7 +1,7 @@
-package sqaureinvaders.entities;
+package squareinvaders.entities;
 
-import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.managers.InvaderEntityManager;
+import squareinvaders.constants.SIConstants;
+import squareinvaders.managers.InvaderEntityManager;
 import game.framework.utilities.GameUtility;
 
 public class InvaderEntity extends EnemyEntity

@@ -1,8 +1,8 @@
-package sqaureinvaders.entities;
+package squareinvaders.entities;
 
 import java.awt.Color;
 
-import sqaureinvaders.constants.SIConstants;
+import squareinvaders.constants.SIConstants;
 import game.framework.entities.Entity;
 
 public class EnemyShotEntity extends Entity

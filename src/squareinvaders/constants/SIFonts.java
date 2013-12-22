@@ -24,6 +24,8 @@ public class SIFonts
   public static final Font FONT_INTRO_SCREEN2_SUB_TITLE   = new Font("Courier", Font.BOLD, 24);
   public static final Font FONT_INTRO_SCREEN2_ARROW       = new Font("Courier", Font.BOLD, 48);
 
+  public static final Font FONT_INTRO_EXIT_GAME           = new Font("Verdana", Font.BOLD, 28);
+
   public static final Font FONT_GAME_START                = new Font("Verdana", Font.BOLD, 28);
 
   // Fonts used when the game is in play

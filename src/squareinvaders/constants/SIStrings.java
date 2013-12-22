@@ -14,6 +14,7 @@ public class SIStrings
   public static final String MSG_INTRO_SCREEN1_PRESS_SPACE             = "Press 'SPACE' to Begin Game";
   public static final String MSG_INTRO_SCREEN1_PRESS_I                 = "Press 'I' for Game Instructions";
   public static final String MSG_INTRO_SCREEN1_PRESS_D                 = "Press 'D' to Change Game Difficulty";
+  public static final String MSG_INTRO_SCREEN1_PRESS_Q                 = "Press 'Q' to Exit this Game";
   public static final String MSG_INTRO_SCREEN1_CREDIT                  = "Written and Developed by Gary Giger";
   public static final String MSG_INTRO_SCREEN1_COPYRIGHT               = "\u00a9 2013";
   public static final String MSG_INTRO_SCREEN1_DIFFICULTY_LABEL        = "Selected Difficulty Level";
@@ -32,7 +33,9 @@ public class SIStrings
   public static final String MSG_INTRO_SCREEN2_INST_MOVE_RIGHT         = " - Move Right";                              //"Use Left/Right Arrow Keys to Move";
   public static final String MSG_INTRO_SCREEN2_INST_FIRE               = "SPACE - Fire";                               //"Use Space Bar to Shoot at Invaders";
   public static final String MSG_INTRO_SCREEN2_INST_PAUSE              = "P - Pause Game";
-  public static final String MSG_INTRO_SCREEN2_PRESS_ENTER             = "Press 'ENTER/RETURN' to return to main menu";
+  public static final String MSG_INTRO_SCREEN2_INST_QUIT_PLAYING       = "Esc - Quit Playing";
+  public static final String MSG_INTRO_SCREEN2_PRESS_ENTER             = "Press 'Enter/Return' to return to main menu";
+  public static final String MSG_INTRO_EXIT_GAME                       = "Do You Want To Exit the Game (y/n)?";
 
   // Strings Strings for the game start screen
   public static final String MSG_GAME_START_SCREEN_STARTING            = "Starting Game";

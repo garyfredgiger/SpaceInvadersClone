@@ -1,9 +1,6 @@
 package sqaureinvaders.entities;
 
-import java.awt.Color;
-
 import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.constants.SIConstants.EnemyTypes;
 import sqaureinvaders.managers.InvaderEntityManager;
 import game.framework.utilities.GameUtility;
 
@@ -14,8 +11,8 @@ public class InvaderEntity extends EnemyEntity
    */
 
   // Constants used in determining when a shot should be fired
-  public static final int      DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS = 500;                     // Space out the time enough between shots so they do not gang up
-  private static final int[]   TIME_VARIANCE_FOR_SHOT_INTERVAL     = new int[] { 1, 2, 3, 4 };
+//  public static final int      DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS = 500;                     // Space out the time enough between shots so they do not gang up
+//  private static final int[]   TIME_VARIANCE_FOR_SHOT_INTERVAL     = new int[] { 1, 2, 3, 4 };
 
   private int                  leftScreenBoundary;
   private int                  rightScreenBoundary;
@@ -40,9 +37,9 @@ public class InvaderEntity extends EnemyEntity
     this.bottomOfScreen = bottomOfScreen;
     this.setEnemyType(SIConstants.EnemyTypes.INVADER);
 
-    // Initialize variables responsible for 
+    // Initialize variables responsible for determining when the invader will shoot and how often
     lastShotTime = System.currentTimeMillis();
-    currentTimeIntervalBetweenShots = DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS * TIME_VARIANCE_FOR_SHOT_INTERVAL[GameUtility.random.nextInt(TIME_VARIANCE_FOR_SHOT_INTERVAL.length)];
+    currentTimeIntervalBetweenShots = SIConstants.DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS * SIConstants.TIME_VARIANCE_FOR_SHOT_INTERVAL[GameUtility.random.nextInt(SIConstants.TIME_VARIANCE_FOR_SHOT_INTERVAL.length)];
   }
 
   @Override

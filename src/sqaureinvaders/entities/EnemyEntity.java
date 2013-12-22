@@ -1,7 +1,6 @@
 package sqaureinvaders.entities;
 
 import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.constants.SIConstants.EnemyTypes;
 import game.framework.entities.*;
 import game.framework.utilities.GameEngineConstants;
 

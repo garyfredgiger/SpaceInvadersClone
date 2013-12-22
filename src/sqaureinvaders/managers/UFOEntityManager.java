@@ -7,13 +7,6 @@ import game.framework.utilities.GameUtility;
 public class UFOEntityManager
 {
   /*
-   * Class member variables
-   */
-  private static final long   DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES = 30000;  // Time is in ms
-  private static final double DEFAULT_PROB_TO_LAUNCH_UFO            = 0.0005;
-  private static final double EPSILON                               = 0.00001;  // Used as threshold when comparing doubles
-
-  /*
    * Class instance variables
    */
   private boolean             ufoInFlight;
@@ -23,18 +16,12 @@ public class UFOEntityManager
   private double              currentProbabilityTolaunchANewUFO;
   private double              randomProbability;
 
-  // Change back when using a delta
-  //private double[] ufoSpeeds = new double[] {50, 75, 100, 125, 150, 175, 200};
-
-  // Change back when not using any delta
-  //private double[] ufoSpeeds = new double[] {1, 2, 3, 4, 5, 6, 7};
-
   public UFOEntityManager()
   {
     ufoInFlight = false;
     lastUFOLaunchTime = System.currentTimeMillis();
-    currentProbabilityTolaunchANewUFO = DEFAULT_PROB_TO_LAUNCH_UFO;
-    minTimeBetweenUFOLaunches = DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES;
+    currentProbabilityTolaunchANewUFO = SIConstants.DEFAULT_PROB_TO_LAUNCH_UFO;
+    minTimeBetweenUFOLaunches = SIConstants.DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES;
   }
 
   /*
@@ -45,9 +32,9 @@ public class UFOEntityManager
   public void setNewProbabilityToLaunchUFO(double prob)
   {
     // Make sure the probability of launching a UFO is between (1.0 and DEFAULT_PROB_TO_LAUNCH_UFO], otherwise use the default value
-    if ((prob > 1.0 - EPSILON) || (prob <= DEFAULT_PROB_TO_LAUNCH_UFO))
+    if ((prob > 1.0 - SIConstants.EPSILON) || (prob <= SIConstants.DEFAULT_PROB_TO_LAUNCH_UFO))
     {
-      currentProbabilityTolaunchANewUFO = DEFAULT_PROB_TO_LAUNCH_UFO;
+      currentProbabilityTolaunchANewUFO = SIConstants.DEFAULT_PROB_TO_LAUNCH_UFO;
     }
     else
     {
@@ -62,7 +49,7 @@ public class UFOEntityManager
   {
     if (minTimeInMs <= 0)
     {
-      minTimeBetweenUFOLaunches = DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES;
+      minTimeBetweenUFOLaunches = SIConstants.DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES;
     }
     else
     {

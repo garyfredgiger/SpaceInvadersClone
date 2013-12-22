@@ -1,9 +1,10 @@
 package sqaureinvaders.entities;
 
+import sqaureinvaders.constants.SIConstants;
 import game.framework.entities.Entity;
 import game.framework.utilities.GameEngineConstants;
 
-/**
+/*
  * 
  * @author ggiger
  * 
@@ -12,11 +13,6 @@ import game.framework.utilities.GameEngineConstants;
  */
 public class PlayerEntity extends Entity
 {
-  /*
-   * Class member variables
-   */
-  private static final int DEFAULT_STARTING_PLAYER_LIVES = 3;
-
   /*
    * Class instance variables
    */
@@ -118,7 +114,7 @@ public class PlayerEntity extends Entity
   @Override
   public void reset()
   {
-    numberOfLives = DEFAULT_STARTING_PLAYER_LIVES;
+    numberOfLives = SIConstants.DEFAULT_STARTING_PLAYER_LIVES;
 
     moveToHomePosition();
     super.reset();

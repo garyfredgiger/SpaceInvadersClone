@@ -5,21 +5,19 @@ import game.framework.utilities.*;
 import java.awt.Color;
 
 import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.constants.SIConstants.EnemyTypes;
 import sqaureinvaders.managers.UFOEntityManager;
 
 public class UFOEntity extends EnemyEntity
 {
-  private final int        VERTICAL_POSITION = 60;
-
+  private int rightScreenBoundary;
   private UFOEntityManager manager;
 
   public UFOEntity()
   {
-    this(null);
+    this(null, 0);
   }
 
-  public UFOEntity(UFOEntityManager manager)
+  public UFOEntity(UFOEntityManager manager, int userDefinedRightScreenBoundary)
   {
     super();
 
@@ -33,11 +31,12 @@ public class UFOEntity extends EnemyEntity
     this.setDimensions(32, 16);
 
     // Center the shot so that is exits the players ship at the center
-    this.setPosition(0, VERTICAL_POSITION);
-    //this.setVelocity(50, 0);
+    this.setPosition(0, SIConstants.UFO_VERTICAL_POSITION);
 
     this.setEnemyType(SIConstants.EnemyTypes.UFO);
     this.setPointValue((GameUtility.random.nextInt(10) + 1) * 100);
+    
+    rightScreenBoundary = userDefinedRightScreenBoundary;
   }
 
   @Override
@@ -46,7 +45,7 @@ public class UFOEntity extends EnemyEntity
     if (isAlive())
     {
       // Check if the UFO has reached the other side of the screen. if it has then mark is as being killed.
-      if ((this.getPositionX() + this.getWidth()) >= (GameEngineConstants.DEFAULT_CANVAS_WIDTH))
+      if ((this.getPositionX() + this.getWidth()) >= rightScreenBoundary)
       {
         this.kill();
       }

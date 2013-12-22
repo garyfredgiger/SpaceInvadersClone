@@ -19,6 +19,21 @@ public class SIConstants
     }
   };
 
+  // Game specific enumeration representing the different types of shots 
+  public static enum ShotTypes
+  {
+    NORMAL, DOUBLE, THREE_SPREAD, FIVE_SPREAD
+
+    // TODO: Regarding power-ups, possibly add a method here that returns the next available power-up until the highest one is reached.
+    //public 
+  };
+
+  // Game specific enumeration representing different types of enemies 
+  public static enum EnemysTypes
+  {
+    INVADER, UFO;
+  };
+
   /*
    * Constants for enemy entities (both UFOs and Invaders)
    */
@@ -34,6 +49,11 @@ public class SIConstants
   public static final double[] UFO_SPEEDS                                              = new double[] { 50, 75, 100, 125, 150, 175, 200 };
   public static final int      HIGHEST_INVADER_SCORE                                   = 60;
   public static final int      INVADER_SCORE_INCREMENT                                 = 10;
+  public static final int      UFO_VERTICAL_POSITION                                   = 60;
+  public static final long     DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES                   = 30000;                                                                                                                                                                                                        // Time is in ms
+  public static final double   DEFAULT_PROB_TO_LAUNCH_UFO                              = 0.0005;
+  public static final int      DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS                     = 500;                                                                                                                                                                                                          // Space out the time enough between shots so they do not gang up
+  public static final int[]    TIME_VARIANCE_FOR_SHOT_INTERVAL                         = new int[] { 1, 2, 3, 4 };
 
   /*
    *  Constants for the player's entity 
@@ -41,6 +61,12 @@ public class SIConstants
   public static final int      PLAYER_VELOCITY                                         = 100;
   public static final int      BULLET_SPEED                                            = -200;
   public static final Color    PLAYER_COLOR                                            = Color.LIGHT_GRAY;
+  public static final int      DEFAULT_STARTING_PLAYER_LIVES                           = 3;
+
+  /*
+   * General Constants 
+   */
+  public static final double   EPSILON                                                 = 0.00001;                                                                                                                                                                                                      // Used as threshold when comparing doubles
 
   /*
    * Numeric constants used in the game

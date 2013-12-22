@@ -1,23 +1,9 @@
 package sqaureinvaders.managers;
 
 import sqaureinvaders.constants.SIConstants;
-import sqaureinvaders.constants.SIConstants.DifficultyLevels;
 
 public class InvaderEntityManager
 {
-  /*
-   * Class member variables
-   */
-  //private static final double INVADER_SPEEDUP_FACTOR         = 1.05;
-
-  // Change back when using a delta
-  //public static final int    INVADER_INITIAL_VELOCITY       = 20;
-
-  // Change back when not using any delta
-  //public static final int    INVADER_INITIAL_VELOCITY       = 1;
-
-  //private static final int    INVADER_SHOT_PROBABILITY_RANGE = 5000;
-
   /*
    * Class instance variables
    */

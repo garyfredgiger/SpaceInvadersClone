@@ -7,13 +7,6 @@ import game.framework.entities.*;
 
 public class PlayerShotEntity extends Entity
 {
-
-  // Change back when using a delta
-  //public static final int BULLET_SPEED = -200;
-
-  // Change back when not using any delta
-  //public static final int BULLET_SPEED = -2;
-
   private double topOfScreen;
 
   public PlayerShotEntity(double startingPosition, double endingPosition, double topOfScreen)

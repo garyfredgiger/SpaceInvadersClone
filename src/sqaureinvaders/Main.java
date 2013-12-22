@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import sqaureinvaders.constants.SIConstants;
+
 public class Main extends JFrame
 {
   /**
@@ -21,7 +23,7 @@ public class Main extends JFrame
    */
   private static final long serialVersionUID = 1L;
 
-  private SqaureInvaders    gameDemo;
+  private SqaureInvaders    squareInvaders;
   private GameScreen        gameScreen;
 
   public Main()
@@ -37,9 +39,9 @@ public class Main extends JFrame
     this.setResizable(false);
     this.setVisible(true);
 
-    gameDemo = new SqaureInvaders(gameScreen);
-    gameDemo.gameInit();
-    gameDemo.gameStart();
+    squareInvaders = new SqaureInvaders(gameScreen, GameEngineConstants.DEFAULT_CANVAS_WIDTH, GameEngineConstants.DEFAULT_CANVAS_HEIGHT);
+    squareInvaders.gameInit();
+    squareInvaders.gameStart();
   }
 
   public static void main(String[] args)
@@ -100,7 +102,7 @@ public class Main extends JFrame
       super.paintComponent(g);   // paint background
 
       // Draw the game objects
-      gameDemo.gameDraw((Graphics2D) g);
+      squareInvaders.gameDraw((Graphics2D) g);
 
       Toolkit.getDefaultToolkit().sync();
     }
@@ -124,7 +126,7 @@ public class Main extends JFrame
     @Override
     public void keyPressed(KeyEvent e)
     {
-      gameDemo.gameKeyPressed(e.getKeyCode());
+      squareInvaders.gameKeyPressed(e.getKeyCode());
     }
 
     @Override
@@ -133,9 +135,9 @@ public class Main extends JFrame
       // Process Debug key    
       if (e.getKeyCode() == KeyEvent.VK_BACK_QUOTE && e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK)
       {
-        gameDemo.displayDebugInfo = !gameDemo.displayDebugInfo;
+        squareInvaders.displayDebugInfo = !squareInvaders.displayDebugInfo;
 
-        if (gameDemo.displayDebugInfo)
+        if (squareInvaders.displayDebugInfo)
         {
           System.out.println("Debugging Enabled.");
         }
@@ -145,13 +147,13 @@ public class Main extends JFrame
         }
       }
 
-      gameDemo.gameKeyReleased(e.getKeyCode());
+      squareInvaders.gameKeyReleased(e.getKeyCode());
     }
 
     @Override
     public void keyTyped(KeyEvent e)
     {
-      gameDemo.gameKeyTyped(e.getKeyCode());
+      squareInvaders.gameKeyTyped(e.getKeyCode());
     }
 
     @Override

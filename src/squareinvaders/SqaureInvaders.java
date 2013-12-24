@@ -502,7 +502,7 @@ public class SqaureInvaders extends GameEngine
             EnemyShotEntity enemyShot = new EnemyShotEntity(currentEnemy.getPositionX() + (currentEnemy.getWidth() / 2), currentEnemy.getPositionY(), 560);
             
             // NOTE: Uncomment this line if you want the shot of the current invader to be the same color as the invader itself.
-            //enemyShot.setColor(currentEnemy.getColor());;
+            //enemyShot.setColor(currentEnemy.getColor());
             addEnemyShot(enemyShot);
           }
         }

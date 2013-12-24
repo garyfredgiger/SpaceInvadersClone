@@ -40,14 +40,14 @@ public class SIConstants
   public static final double   EPSILON                                                 = 0.00001;                                                                                                                                                                                                      // Used as threshold when comparing doubles
   public static final Color    VIOLET                                                  = new Color(138, 43, 226);
   public static final Color    INDIGO                                                  = new Color(75, 0, 130);
-  
+
   /*
    * Constants for enemy entities (both UFOs and Invaders)
    */
-  
+
   // Colors used for both the invaders and the UFO
   public static final Color[]  INVADER_COLORS                                          = new Color[] { Color.RED, VIOLET, Color.BLUE, Color.GREEN, Color.ORANGE, Color.YELLOW };
-  
+
   // Invader Constants
   public static final int      INITIAL_BULLET_SPEED                                    = 120;                                                                                                                                                                                                          // Invader shot speed
   public static final int      INVADER_INITIAL_VELOCITY                                = 20;
@@ -58,8 +58,8 @@ public class SIConstants
   public static final int      INVADER_SCORE_INCREMENT                                 = 10;
   public static final int      DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS                     = 500;                                                                                                                                                                                                          // Space out the time enough between shots so they do not gang up
   public static final int[]    TIME_VARIANCE_FOR_SHOT_INTERVAL                         = new int[] { 1, 2, 3, 4 };
-  public static final int INVADER_SHOT_WIDTH = 4;
-  public static final int INVADER_SHOT_LENGTH = 12;
+  public static final int      INVADER_SHOT_WIDTH                                      = 4;
+  public static final int      INVADER_SHOT_LENGTH                                     = 12;
 
   // UFO Constants 
   public static final double[] UFO_SPEEDS                                              = new double[] { 50, 75, 100, 125, 150, 175, 200 };
@@ -71,7 +71,7 @@ public class SIConstants
    * Constants for the background 
    */
   public static final Color[]  STAR_COLORS                                             = new Color[] { Color.WHITE, Color.LIGHT_GRAY, Color.DARK_GRAY, Color.RED.darker(), Color.ORANGE.darker(), Color.YELLOW.darker(), Color.GREEN.darker(), Color.BLUE.darker(), INDIGO.darker(), VIOLET.darker() };
-  
+
   /*
    *  Constants for the player's entity 
    */

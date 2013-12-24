@@ -19,7 +19,9 @@ public class EnemyShotEntity extends Entity
     super();
 
     this.setColor(Color.WHITE);
-    this.setDimensions(2, 12);
+    
+    // 
+    this.setDimensions(SIConstants.INVADER_SHOT_WIDTH, SIConstants.INVADER_SHOT_LENGTH);
 
     // Center the shot so that is exits the players ship at the center
     this.setPosition(startingPosition - this.getWidth() / 2, endingPosition);

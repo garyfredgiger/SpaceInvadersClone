@@ -19,6 +19,8 @@ public class SIDebugConstants
 
   public static final String DEBUG_MSG_INVADER_VELOCITY_ALL_DEAD = "Invader Velocity: ALL DEAD";
   public static final String DEBUG_MSG_INVADER_VELOCITY          = "Invader Velocity: ";
+  
+  public static final String DEBUG_MSG_PLAYER_LIVES = "Player Lives: ";
 
   public static final String DEBUG_DECIMAL_FORMAT                = "0.000000000";
 }

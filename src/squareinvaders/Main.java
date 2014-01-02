@@ -23,7 +23,7 @@ public class Main extends JFrame
    */
   private static final long serialVersionUID = 1L;
 
-  private SqaureInvaders    squareInvaders;
+  private SquareInvaders    squareInvaders;
   private GameScreen        gameScreen;
 
   public Main()
@@ -35,11 +35,11 @@ public class Main extends JFrame
     this.setContentPane(gameScreen);
     this.pack();
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.setTitle("Moving Square Demo");
+    this.setTitle("Square Invaders");
     this.setResizable(false);
     this.setVisible(true);
 
-    squareInvaders = new SqaureInvaders(gameScreen, GameEngineConstants.DEFAULT_CANVAS_WIDTH, GameEngineConstants.DEFAULT_CANVAS_HEIGHT);
+    squareInvaders = new SquareInvaders(gameScreen, GameEngineConstants.DEFAULT_CANVAS_WIDTH, GameEngineConstants.DEFAULT_CANVAS_HEIGHT);
     squareInvaders.gameInit();
     squareInvaders.gameStart();
   }

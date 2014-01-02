@@ -71,6 +71,16 @@ public class PlayerEntity extends Entity
     return numberOfLives;
   }
 
+  public void incrementNumberOfLives()
+  {
+    numberOfLives++;
+  }
+
+  public void decrementNumberOfLives()
+  {
+    numberOfLives--;
+  }
+
   /*
    * This method is called when the player still has remaining lives and the next life needs to
    * appear in the home position after being killed previously.  

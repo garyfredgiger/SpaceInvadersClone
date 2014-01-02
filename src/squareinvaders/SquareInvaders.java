@@ -32,7 +32,7 @@ import game.framework.utilities.GameUtility;
 import game.framework.utilities.input.GameInputMovement;
 
 // public class GameJFrameSqaureInvaders extends GameJFrame
-public class SqaureInvaders extends GameEngine
+public class SquareInvaders extends GameEngine
 {
   /*
    * Class member variables
@@ -65,10 +65,11 @@ public class SqaureInvaders extends GameEngine
   private UFOEntity                    ufoForIntroScreen;
 
   // Variables used for the game screens
-  private PlayerEntity                 playerLives;
+  private Entity numberOfLivesEntity;
 
   // Player variables 
   private SIConstants.ShotTypes        currentShotType;
+  private long currentShotTimer = 0;
 
   // Variables to manage different game events and user input states 
   private boolean                      shotFired;
@@ -103,18 +104,18 @@ public class SqaureInvaders extends GameEngine
   private int                          maxNumberInvaderShots;
   private int                          invaderStartingRowPosition;
 
-  public SqaureInvaders(IRender renderer)
+  public SquareInvaders(IRender renderer)
   {
     super(renderer);
   }
 
-  public SqaureInvaders(IRender renderer, int userDefinedScreenWidth, int userDefinedScreenHeight)
+  /*
+   * Allows the user to specify the width and height
+   */
+  public SquareInvaders(IRender renderer, int userDefinedScreenWidth, int userDefinedScreenHeight)
   {
     super(renderer, userDefinedScreenWidth, userDefinedScreenHeight);
   }
-  
-  // TODO: Add a constructor that also specifies the width and height
-  // TODO: If the additional constructor is added, all references to GameEngineConstants.DEFAULT_CANVAS_HEIGHT and GameEngineConstants.DEFAULT_CANVAS_WIDTH will need to be replaced. 
 
   @Override
   public void userGameInit()
@@ -135,18 +136,15 @@ public class SqaureInvaders extends GameEngine
     // NOTE: The players default setting has both its alive and visible flags set to true. Therefore, to avoid it from 
     //       showing up before the game begins, the player ship needs to have both flags set to false via the kill
     //       method. Remember that it needs to have these flags set again When the game begins using the reset method.  
-    //PlayerEntity player = new PlayerEntity(GameEngineConstants.DEFAULT_CANVAS_WIDTH / 2, 560, 0, GameEngineConstants.DEFAULT_CANVAS_WIDTH);
     PlayerEntity player = new PlayerEntity(screenWidth / 2, 560, 0, screenWidth);
     player.setColor(SIConstants.PLAYER_COLOR);
     player.setVisible(false);     // When the game loads, we do not want the player entity to be seen until the player begins playing the game.
     setNewPlayerEntity(player);
 
-    // TODO: This may need to be changed
     // Setup the entity representing the players lives
-    playerLives = new PlayerEntity();
-    playerLives.setColor(SIConstants.PLAYER_COLOR);
-    //playerLives.setPositionY(GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.083 - playerLives.getHeight());
-    playerLives.setPositionY(screenHeight * 0.083 - playerLives.getHeight());
+    numberOfLivesEntity = new Entity();
+    numberOfLivesEntity.setColor(SIConstants.PLAYER_COLOR);
+    numberOfLivesEntity.setPositionY(screenHeight * 0.083 - numberOfLivesEntity.getHeight());
 
     // Initialize the invaders for the score list that is displayed on the instructions introduction screen
     double rowsSpacing = 0.36;
@@ -155,7 +153,6 @@ public class SqaureInvaders extends GameEngine
     for (int row = 0; row < SIConstants.NUM_INVADER_ROWS; row++)
     {
       InvaderEntity invader = new InvaderEntity();
-      //invader.setPosition(GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.42, GameEngineConstants.DEFAULT_CANVAS_HEIGHT * rowsSpacing);
       invader.setPosition(screenWidth * 0.42, screenHeight * rowsSpacing);
       invader.reset();
       invader.setPointValue(pointValue);
@@ -167,7 +164,6 @@ public class SqaureInvaders extends GameEngine
     }
 
     ufoForIntroScreen = new UFOEntity();
-    //ufoForIntroScreen.setPosition(GameEngineConstants.DEFAULT_CANVAS_WIDTH * 0.42 - (ufoForIntroScreen.getWidth() / 4), GameEngineConstants.DEFAULT_CANVAS_HEIGHT * rowsSpacing);
     ufoForIntroScreen.setPosition(screenWidth * 0.42 - (ufoForIntroScreen.getWidth() / 4), screenHeight * rowsSpacing);
     ufoForIntroScreen.setVelocity(0, 0);
     ufoForIntroScreen.reset();
@@ -196,8 +192,6 @@ public class SqaureInvaders extends GameEngine
   public void userGameShutdown()
   {}
 
-  // TODO: There needs to be separate methods to reset the game and to move to the next level
-
   /*
    * (non-Javadoc)
    * @see game.engine.jframe.GameJFrame#userGameStart()
@@ -207,20 +201,6 @@ public class SqaureInvaders extends GameEngine
   {
     stateStartIntroDemoTime = System.currentTimeMillis();
     startDemo = false;
-
-    //    shotFired = false;
-    //    currentShotType = ShotTypes.NORMAL;
-    //    currentLevel = 1;
-    //
-    //    // Setup score manager
-    //    ScoreManager.reset(); // TODO: Should this be in the method to initialize the invaders?
-    //
-    //    // Prepare the enemies
-    //    initializeInvaders();
-    //
-    //    // Setup the player to start in the bottom center of the screen.
-    //    PlayerEntity player = new PlayerEntity(GameEngineConstants.DEFAULT_CANVAS_WIDTH / 2, 560);
-    //    setNewPlayerEntity(player);
   }
 
   /*
@@ -383,8 +363,6 @@ public class SqaureInvaders extends GameEngine
         if (ufoEntityManager.ufoShouldBeLaunched())
         {
           UFOEntity ufo = new UFOEntity(ufoEntityManager, screenWidth);
-          System.out.println("Launching UFO with parameters:");
-          System.out.println(ufo.toString());
           addEnemy(ufo);
         }
 
@@ -550,6 +528,13 @@ public class SqaureInvaders extends GameEngine
         if (!entity2.isAlive())
         {
           ScoreManager.incrementScore(((EnemyEntity) entity2).getPointValue());
+
+          // Check if player should get an extra life
+          if (ScoreManager.checkForExtraLifeEligibility())
+          {
+            ((PlayerEntity) getPlayer()).incrementNumberOfLives();
+            ScoreManager.extraLifeAdded();
+          }
         }
       }
     }
@@ -781,10 +766,10 @@ public class SqaureInvaders extends GameEngine
         
         int xOffset = (int) (screenWidth * 0.80);
         for (int i = 0; i < ((PlayerEntity) getPlayer()).getNumberOfLives(); i++)
-        {
-          playerLives.setPositionX(xOffset);
-          playerLives.draw(g);
-          xOffset += (playerLives.getWidth() * 2);
+        {          
+          numberOfLivesEntity.setPositionX(xOffset);
+          numberOfLivesEntity.draw(g);
+          xOffset += (numberOfLivesEntity.getWidth() * 2);
         }
 
         drawEarth(g);
@@ -866,7 +851,9 @@ public class SqaureInvaders extends GameEngine
           line += 16;
           g.drawString(SIDebugConstants.DEBUG_MSG_INVADER_INTERVAL_TIME + SIConstants.DEFAULT_TIME_INTERVAL_BETWEEN_SHOTS, 560, line);
           line += 16;
-
+          g.drawString(SIDebugConstants.DEBUG_MSG_PLAYER_LIVES + ((PlayerEntity)getPlayer()).getNumberOfLives(), 560, line);
+          line += 16;
+          
           if (getEnemies().size() == 0)
             g.drawString(SIDebugConstants.DEBUG_MSG_INVADER_VELOCITY_ALL_DEAD, 560, line);
           else
@@ -1008,58 +995,62 @@ public class SqaureInvaders extends GameEngine
 
         if (shotFired)
         {
-          if (SIConstants.ShotTypes.NORMAL == currentShotType)
+          if (System.currentTimeMillis() > (currentShotTimer + SIConstants.PLAYER_SHOT_TIME_INTERVAL))
           {
-            // Single Shot
-            PlayerShotEntity playerShot = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-            addPlayerShot(playerShot);
+            if (SIConstants.ShotTypes.NORMAL == currentShotType)
+            {
+              // Single Shot
+              PlayerShotEntity playerShot = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+              addPlayerShot(playerShot);
+            }
+            else if (SIConstants.ShotTypes.DOUBLE == currentShotType)
+            {
+              // Twin Shot
+              PlayerShotEntity playerShotLeft = new PlayerShotEntity(getPlayer().getPositionX(), getPlayer().getPositionY(), 20);
+              PlayerShotEntity playerShotRight = new PlayerShotEntity(getPlayer().getPositionX() + getPlayer().getWidth(), getPlayer().getPositionY(), 20);
+              addPlayerShot(playerShotLeft);
+              addPlayerShot(playerShotRight);
+            }
+            else if (SIConstants.ShotTypes.THREE_SPREAD == currentShotType)
+            {
+              // Spread Three Shot
+              PlayerShotEntity playerShotLeftAngled = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+              PlayerShotEntity playerShotRightAngled = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+              PlayerShotEntity playerShotStraight = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+
+              adjustDirection(playerShotLeftAngled, 10);
+              adjustDirection(playerShotRightAngled, -10);
+
+              addPlayerShot(playerShotLeftAngled);
+              addPlayerShot(playerShotRightAngled);
+              addPlayerShot(playerShotStraight);
+            }
+            else if (SIConstants.ShotTypes.FIVE_SPREAD == currentShotType)
+            {
+              // Spread Five Shot
+              PlayerShotEntity playerShotLeftAngled1 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+              PlayerShotEntity playerShotLeftAngled2 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+
+              PlayerShotEntity playerShotRightAngled1 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+              PlayerShotEntity playerShotRightAngled2 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+
+              PlayerShotEntity playerShotStraight = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
+
+              adjustDirection(playerShotLeftAngled1, 5);
+              adjustDirection(playerShotLeftAngled2, 10);
+              adjustDirection(playerShotRightAngled1, -5);
+              adjustDirection(playerShotRightAngled2, -10);
+
+              addPlayerShot(playerShotLeftAngled1);
+              addPlayerShot(playerShotLeftAngled2);
+              addPlayerShot(playerShotRightAngled1);
+              addPlayerShot(playerShotRightAngled2);
+              addPlayerShot(playerShotStraight);
+            }
+
+            currentShotTimer = System.currentTimeMillis();
+            shotFired = false;          
           }
-          else if (SIConstants.ShotTypes.DOUBLE == currentShotType)
-          {
-            // Twin Shot
-            PlayerShotEntity playerShotLeft = new PlayerShotEntity(getPlayer().getPositionX(), getPlayer().getPositionY(), 20);
-            PlayerShotEntity playerShotRight = new PlayerShotEntity(getPlayer().getPositionX() + getPlayer().getWidth(), getPlayer().getPositionY(), 20);
-            addPlayerShot(playerShotLeft);
-            addPlayerShot(playerShotRight);
-          }
-          else if (SIConstants.ShotTypes.THREE_SPREAD == currentShotType)
-          {
-            // Spread Three Shot
-            PlayerShotEntity playerShotLeftAngled = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-            PlayerShotEntity playerShotRightAngled = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-            PlayerShotEntity playerShotStraight = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-
-            adjustDirection(playerShotLeftAngled, 10);
-            adjustDirection(playerShotRightAngled, -10);
-
-            addPlayerShot(playerShotLeftAngled);
-            addPlayerShot(playerShotRightAngled);
-            addPlayerShot(playerShotStraight);
-          }
-          else if (SIConstants.ShotTypes.FIVE_SPREAD == currentShotType)
-          {
-            // Spread Five Shot
-            PlayerShotEntity playerShotLeftAngled1 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-            PlayerShotEntity playerShotLeftAngled2 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-
-            PlayerShotEntity playerShotRightAngled1 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-            PlayerShotEntity playerShotRightAngled2 = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-
-            PlayerShotEntity playerShotStraight = new PlayerShotEntity(getPlayer().getPositionX() + (getPlayer().getWidth() / 2), getPlayer().getPositionY(), 20);
-
-            adjustDirection(playerShotLeftAngled1, 5);
-            adjustDirection(playerShotLeftAngled2, 10);
-            adjustDirection(playerShotRightAngled1, -5);
-            adjustDirection(playerShotRightAngled2, -10);
-
-            addPlayerShot(playerShotLeftAngled1);
-            addPlayerShot(playerShotLeftAngled2);
-            addPlayerShot(playerShotRightAngled1);
-            addPlayerShot(playerShotRightAngled2);
-            addPlayerShot(playerShotStraight);
-          }
-
-          shotFired = false;
         }
         break;
 
@@ -1159,7 +1150,10 @@ public class SqaureInvaders extends GameEngine
 
         if (keyCode == KeyEvent.VK_SPACE)
         {
-          shotFired = true;
+          if (System.currentTimeMillis() > (currentShotTimer + SIConstants.PLAYER_SHOT_TIME_INTERVAL))
+          {
+            shotFired = true;          
+          }
         }
 
         break;
@@ -1298,7 +1292,6 @@ public class SqaureInvaders extends GameEngine
 
     for (int row = 0; row < 2; row++)
     {
-      //int rowPosition = (int) (GameEngineConstants.DEFAULT_CANVAS_HEIGHT * 0.36);
       int rowPosition = (int) (screenHeight * 0.36);
 
       for (int col = 0; col < 6; col++)
@@ -1359,7 +1352,7 @@ public class SqaureInvaders extends GameEngine
     {
       for (int col = 0; col < SIConstants.NUM_INVADER_COLS; col++)
       {
-        InvaderEntity invader = new InvaderEntity(invaderEntityManager, 20, 780, 560 + getPlayer().getHeight());
+        InvaderEntity invader = new InvaderEntity(invaderEntityManager, 20, 780, (560 + getPlayer().getHeight()));
         invader.setPosition(32 + (col * 48), (invaderStartingRowPosition) + row * 32);
         invader.setVelocity(SIConstants.INVADER_INITIAL_VELOCITY, 0);
         invader.setColor(SIConstants.INVADER_COLORS[row]);
@@ -1383,7 +1376,7 @@ public class SqaureInvaders extends GameEngine
     {
       for (int col = 0; col < SIConstants.NUM_INVADER_COLS; col++)
       {
-        InvaderEntityMultipleHits invader = new InvaderEntityMultipleHits(invaderEntityManager, 20, 780, 560);
+        InvaderEntityMultipleHits invader = new InvaderEntityMultipleHits(invaderEntityManager, 20, 780, (560 + getPlayer().getHeight()));
         invader.setPosition(32 + (col * 48), (invaderStartingRowPosition) + row * 32);
         invader.setVelocity(SIConstants.INVADER_INITIAL_VELOCITY, 0);
         invader.setColor(SIConstants.INVADER_COLORS[row]);
@@ -1438,7 +1431,6 @@ public class SqaureInvaders extends GameEngine
       star.setColor(SIConstants.STAR_COLORS[GameUtility.random.nextInt(SIConstants.STAR_COLORS.length)]);
       int starDimensions = GameUtility.random.nextInt(3) + 1;
       star.setDimensions(starDimensions, starDimensions);
-      //star.setPosition(GameUtility.random.nextInt(GameEngineConstants.DEFAULT_CANVAS_WIDTH), GameUtility.random.nextInt(GameEngineConstants.DEFAULT_CANVAS_HEIGHT - 40));
       star.setPosition(GameUtility.random.nextInt(screenWidth), GameUtility.random.nextInt(screenHeight - 40));
       starryBackground.add(star);
     }
@@ -1467,15 +1459,24 @@ public class SqaureInvaders extends GameEngine
     // Clear the player shots when moving to the next level. This will clear the screen before the intro screen for the next level is displayed
     // This is more or less for eye candy to make a clean transition to the next level.
     clearPlayerShot();
-
-    //    if (currentDifficultyLevel == SpaceInvaderConstants.DifficultyLevels.ADVANCED)
-    //    {
-    //      initializeMultiHitInvaders();
-    //    }
-    //    else
-    //    {
-    initializeInvaders();
-    //    }
+        
+    // The boss will appear every number of levels specified in SIConstants.BOSS_LEVEL_APPEARANCE
+    if ((currentLevel % SIConstants.BOSS_LEVEL_APPEARANCE) == 0)
+    {
+      createBossOne();
+      invaderCount = 46;
+    }
+    else
+    {
+      if (currentDifficultyLevel == SIConstants.DifficultyLevels.ADVANCED)
+      {
+        initializeMultiHitInvaders();
+      }
+      else
+      {
+        initializeInvaders();
+      }
+    }
 
     // Make the player entity visible, alive and in its home position. 
     ((PlayerEntity) getPlayer()).restore();
@@ -1510,5 +1511,87 @@ public class SqaureInvaders extends GameEngine
     double svx = calcAngleMoveX(angle) * SIConstants.BULLET_SPEED;
     double svy = calcAngleMoveY(angle) * SIConstants.BULLET_SPEED;
     sprite.setVelocity(svx, svy);
+  }
+  
+  /*
+   * CODE TO ADD BIG BOSS
+   */
+  // Create Boss 1
+  public void createBossOne()
+  {
+    // Row 1    
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 3*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 9*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + SIConstants.BOSS_BLOCK_HEIGHT);
+
+    // Row 2
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 4*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 2*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 8*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 2*SIConstants.BOSS_BLOCK_HEIGHT);
+
+    // Row 3
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 3*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 4*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 5*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 6*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 7*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 8*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 9*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 3*SIConstants.BOSS_BLOCK_HEIGHT);
+
+    // Row 4
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 2*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 3*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 5*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 6*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 7*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 9*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 10*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 4*SIConstants.BOSS_BLOCK_HEIGHT);
+    
+    // Row 5
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 1*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 2*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 3*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 4*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 5*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 6*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 7*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 8*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 9*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 10*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 11*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 5*SIConstants.BOSS_BLOCK_HEIGHT);
+
+    // Row 6
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 1*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 3*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 4*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 5*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 6*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 7*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 8*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 9*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 11*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 6*SIConstants.BOSS_BLOCK_HEIGHT);
+
+    // Row 7
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 1*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 7*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 3*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 7*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 9*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 7*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 11*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 7*SIConstants.BOSS_BLOCK_HEIGHT);
+
+    // Row 8
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 4*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 8*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 5*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 8*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 7*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 8*SIConstants.BOSS_BLOCK_HEIGHT);
+    addBossBlock(invaderEntityManager, SIConstants.BOSS_STARTING_POSITION_X + 8*SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_STARTING_POSITION_Y + 8*SIConstants.BOSS_BLOCK_HEIGHT);
+  }
+  
+  public void addBossBlock(InvaderEntityManager manager, double positionX, double positionY)
+  {
+      InvaderEntityMultipleHits block = new InvaderEntityMultipleHits(manager, 20, 780, 560);
+      
+      block.setPointValue(SIConstants.BOSS_BLOCK_POINT_VALUE);
+      block.setDimensions(SIConstants.BOSS_BLOCK_WIDTH, SIConstants.BOSS_BLOCK_HEIGHT);
+      block.setPosition(positionX, positionY);
+      block.setColor(Color.RED);
+      block.setVelocity(SIConstants.INVADER_INITIAL_VELOCITY, 0);
+
+      addEnemy(block);
   }
 }

@@ -67,6 +67,15 @@ public class SIConstants
   public static final long     DEFAULT_MIN_TIME_BETWEEN_UFO_LAUNCHES                   = 30000;                                                                                                                                                                                                        // Time is in ms
   public static final double   DEFAULT_PROB_TO_LAUNCH_UFO                              = 0.0005;
 
+  // Boss Constants
+  public static final int      BOSS_BLOCK_WIDTH                                        = 32;
+  public static final int      BOSS_BLOCK_HEIGHT                                       = 32;
+  public static final Color    BOSS_BLOCK_COLOR                                        = Color.RED;
+  public static final int      BOSS_BLOCK_POINT_VALUE                                  = 225;
+  public static final int      BOSS_STARTING_POSITION_X                                = 128;
+  public static final int      BOSS_STARTING_POSITION_Y                                = 64;
+  public static final int      BOSS_LEVEL_APPEARANCE                                   = 10;
+
   /*
    * Constants for the background 
    */
@@ -79,10 +88,13 @@ public class SIConstants
   public static final int      BULLET_SPEED                                            = -200;
   public static final Color    PLAYER_COLOR                                            = Color.LIGHT_GRAY;
   public static final int      DEFAULT_STARTING_PLAYER_LIVES                           = 3;
+  public static final int      PLAYER_SHOT_TIME_INTERVAL                               = 333;
 
   /*
    * Numeric constants used in the game
    */
+
+  public static final int      NEW_LIFE_SCORE                                          = 10000;
 
   // Difficulty parameters for number of invader shots
   // NOTE: Higher number represents easier factor since this number is used to divide into the number of invaders

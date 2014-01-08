@@ -1,6 +1,8 @@
 SpaceInvadersClone
 ==================
 
+### Setting up the Project
+
 This is a Space Invaders clone using the game framework that I am in the process of developing. This Space Invaders clone shows how the game framework can be used to make 2D classic arcade games.
 
 When you clone this project, make sure you also clone the *[GameFramework](https://github.com/garyfredgiger/GameFramework.git)* project in this same repo. The GameFramework project is required for this game. Import both projects into Eclipse and before building the project, make sure you add the GameFramework project to this project under the menu options as described below.
@@ -14,11 +16,11 @@ Note: If you are new to Eclipse and need instructions on how to install and set 
 
 To run the game from within Eclipse, right click on the project GameFrameworkSquareInvaders (the name of this project when imported into Eclispe) and select the opton Run As -> Java Application.
 
-A few notes about this game:
+### Notes About the Game:
 
 <ul>
 
-<li>There are currently no known bugs in this game. That is not to say that there are no bugs at all in this game. I have tested it extensively and everything appears to be working as designed. If you do encounter a bug please email me at garyfredgiger@gmail.com and include in the subject line SPACE INVADERS CLONE BUG. In the email please provide a detailed description of the bug and the steps that you followed to arrive at the bug. If I am unable to reproduce the problem then I cannot fix it.</li>
+<li>There are currently no known major bugs in this game (i.e., bugs that impact the gameplay, game performance or cause the game to crash severly). That is not to say that there are no bugs at all in this game. I have tested it extensively and everything appears to be working as designed.</li>
 
 <li>The game was only tested on my laptop running Ubuntu vesion 12.10 within Eclipse running it as a Java application. As I get more time for development and testing, my goal is to obviously test it on all platforms using the major browsers Chrome, IE, Firefox and Safari</li>
 
@@ -43,6 +45,12 @@ A few notes about this game:
 <ul>r - Spread, Fires five shots at a time</ul>
 </ul>
 </ul>
+
+### If You Encounter Problems?
+
+If you do encounter a bug please email me at garyfredgiger@gmail.com and include in the subject line SPACE INVADERS CLONE BUG. In the email please provide a detailed description of the bug and the steps that you followed to arrive at the bug. If I am unable to reproduce the problem then I will not be able to fix it.
+
+### Additional Notes
 
 NOTE: I included the eclipse project files (.project and .classpath) in this project so you can simply import this project without having to create a new project from your cloned copy of the code. Some suggest it is not a good idea to include project specific files, but I thought I would be a rebel and do it anyway.
 

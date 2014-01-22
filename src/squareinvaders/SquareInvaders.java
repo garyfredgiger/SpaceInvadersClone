@@ -25,7 +25,8 @@ import squareinvaders.managers.InvaderEntityManager;
 import squareinvaders.managers.ScoreManager;
 import squareinvaders.managers.UFOEntityManager;
 import game.framework.GameEngine;
-import game.framework.entities.Entity;
+import game.framework.entities.Entity2D;
+import game.framework.entities.shapes.EntityRectangle;
 import game.framework.interfaces.IRender;
 import game.framework.utilities.GameEngineConstants;
 import game.framework.utilities.GameUtility;
@@ -65,7 +66,7 @@ public class SquareInvaders extends GameEngine
   private UFOEntity                    ufoForIntroScreen;
 
   // Variables used for the game screens
-  private Entity numberOfLivesEntity;
+  private EntityRectangle numberOfLivesEntity;
 
   // Player variables 
   private SIConstants.ShotTypes        currentShotType;
@@ -98,7 +99,7 @@ public class SquareInvaders extends GameEngine
   private boolean                      doNotExitGame;
 
   // Variables used for background effects
-  private ArrayList<Entity>            starryBackground           = new ArrayList<Entity>();                    // List to hold the different stars
+  private ArrayList<EntityRectangle>            starryBackground           = new ArrayList<EntityRectangle>();                    // List to hold the different stars
 
   // Level dependent variables
   private int                          maxNumberInvaderShots;
@@ -142,7 +143,7 @@ public class SquareInvaders extends GameEngine
     setNewPlayerEntity(player);
 
     // Setup the entity representing the players lives
-    numberOfLivesEntity = new Entity();
+    numberOfLivesEntity = new EntityRectangle();
     numberOfLivesEntity.setColor(SIConstants.PLAYER_COLOR);
     numberOfLivesEntity.setPositionY(screenHeight * 0.083 - numberOfLivesEntity.getHeight());
 
@@ -317,7 +318,7 @@ public class SquareInvaders extends GameEngine
         // the invader entity's updatePosition method.
         if (invaderEntityManager.isLogicUpdateRequired())
         {
-          Iterator<Entity> enemyIterator = getEnemies().iterator();
+          Iterator<Entity2D> enemyIterator = getEnemies().iterator();
 
           while (enemyIterator.hasNext())
           {
@@ -335,7 +336,7 @@ public class SquareInvaders extends GameEngine
 
         if (invaderEntityManager.isInvaderSpeedupRequired())
         {
-          Iterator<Entity> enemyIterator = getEnemies().iterator();
+          Iterator<Entity2D> enemyIterator = getEnemies().iterator();
 
           double newInvaderVelocity = invaderEntityManager.getDirection() * ((SIConstants.NUM_INVADERS - invaderCount) * invaderEntityManager.getInvaderSpeedupFactor() + SIConstants.INVADER_INITIAL_VELOCITY);
 
@@ -451,7 +452,7 @@ public class SquareInvaders extends GameEngine
    * Provide an update of each entity
    */
   @Override
-  public void userGameUpdateEntity(Entity entity)
+  public void userGameUpdateEntity(Entity2D entity)
   {
     // Simply exit if entity is not alive since it is pointless to update a dead entity (At least in this game).
     if (!entity.isAlive())
@@ -500,7 +501,7 @@ public class SquareInvaders extends GameEngine
    * PlayerShot <-> Enemy
    */
   @Override
-  public void userHandleEntityCollision(Entity entity1, Entity entity2)
+  public void userHandleEntityCollision(Entity2D entity1, Entity2D entity2)
   {
     // Handle player shot collision with an invader
     if (entity1.getEntityType() == GameEngineConstants.EntityTypes.PLAYER_SHOT)
@@ -1276,7 +1277,7 @@ public class SquareInvaders extends GameEngine
     // Draw the enemy shots 
     for (int i = 0; i < starryBackground.size(); i++)
     {
-      Entity currentStar = starryBackground.get(i);
+      EntityRectangle currentStar = starryBackground.get(i);
       currentStar.draw(g);
     }
   }
@@ -1427,7 +1428,7 @@ public class SquareInvaders extends GameEngine
     starryBackground.clear();
     for (int i = 0; i < NUMBER_OF_BACKGROUND_STARS; i++)
     {
-      Entity star = new Entity();
+      EntityRectangle star = new EntityRectangle();
       star.setColor(SIConstants.STAR_COLORS[GameUtility.random.nextInt(SIConstants.STAR_COLORS.length)]);
       int starDimensions = GameUtility.random.nextInt(3) + 1;
       star.setDimensions(starDimensions, starDimensions);
@@ -1504,7 +1505,7 @@ public class SquareInvaders extends GameEngine
   }
 
   // NOTE: This method could be moved to the GameUtility class
-  private void adjustDirection(Entity sprite, double angle)
+  private void adjustDirection(EntityRectangle sprite, double angle)
   {
     angle = 90 + angle;
 

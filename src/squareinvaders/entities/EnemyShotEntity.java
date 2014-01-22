@@ -3,9 +3,9 @@ package squareinvaders.entities;
 import java.awt.Color;
 
 import squareinvaders.constants.SIConstants;
-import game.framework.entities.Entity;
+import game.framework.entities.shapes.EntityRectangle;;;
 
-public class EnemyShotEntity extends Entity
+public class EnemyShotEntity extends EntityRectangle
 {
   private double bottomOfScreen;
 

@@ -1,7 +1,8 @@
 package squareinvaders.entities;
 
 import squareinvaders.constants.SIConstants;
-import game.framework.entities.Entity;
+import game.framework.entities.shapes.EntityRectangle;
+import game.framework.entities.shapes.EntityRectangle;
 import game.framework.utilities.GameEngineConstants;
 
 /*
@@ -11,7 +12,7 @@ import game.framework.utilities.GameEngineConstants;
  *         This class represents the player's entity in the game.
  * 
  */
-public class PlayerEntity extends Entity
+public class PlayerEntity extends EntityRectangle
 {
   /*
    * Class instance variables

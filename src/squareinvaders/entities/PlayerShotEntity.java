@@ -4,8 +4,9 @@ import java.awt.Color;
 
 import squareinvaders.constants.SIConstants;
 import game.framework.entities.*;
+import game.framework.entities.shapes.EntityRectangle;
 
-public class PlayerShotEntity extends Entity
+public class PlayerShotEntity extends EntityRectangle
 {
   private double topOfScreen;
 

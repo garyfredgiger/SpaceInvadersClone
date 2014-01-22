@@ -1,10 +1,10 @@
 package squareinvaders.entities;
 
 import squareinvaders.constants.SIConstants;
-import game.framework.entities.*;
+import game.framework.entities.shapes.EntityRectangle;
 import game.framework.utilities.GameEngineConstants;
 
-public class EnemyEntity extends Entity
+public class EnemyEntity extends EntityRectangle
 {
   private int                    pointValue;
   private SIConstants.EnemyTypes enemyType;

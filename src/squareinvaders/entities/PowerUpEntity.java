@@ -1,9 +1,10 @@
 package squareinvaders.entities;
 
-import game.framework.entities.Entity;
+import game.framework.entities.shapes.EntityRectangle;
+
 import java.awt.Color;
 
-public class PowerUpEntity extends Entity
+public class PowerUpEntity extends EntityRectangle
 {
 
   public PowerUpEntity()

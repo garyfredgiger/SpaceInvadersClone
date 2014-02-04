@@ -6,11 +6,9 @@ import game.framework.entities.shapes.EntityRectangle;
 import game.framework.utilities.GameEngineConstants;
 
 /*
- * 
  * @author ggiger
  * 
- *         This class represents the player's entity in the game.
- * 
+ *         This class represents the player's entity in the game. 
  */
 public class PlayerEntity extends EntityRectangle
 {

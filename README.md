@@ -49,7 +49,7 @@ Note that when you clone this project it will only pull the master branch, which
 
 ###Step 2: Cloning the GameFramework Project
 
-Note: If you already cloned this project by following the directions for setting up my other games (e.g., my asteroids clone), then you can skip this step.
+Note: If you already cloned this project by following the directions for setting up my other game (e.g., my asteroids clone), then you can skip this step.
 
 You will also need the 2D Game Framework *[here](https://github.com/garyfredgiger/GameFramework.git)*. Again, in your terminal window enter the command below.
 
